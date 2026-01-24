@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SBSS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #1a4a8e; --accent: #d71920; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; margin: 0; }
+        .admin-container { max-width: 900px; margin: auto; }
+        .box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; border-top: 5px solid var(--primary); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        button:hover { background: #133669; transform: scale(1.01); }
+        .header { text-align: center; color: var(--primary); margin-bottom: 30px; }
+        .btn-teacher { background: #28a745; }
+        .btn-teacher:hover { background: #218838; }
+        .back-btn { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> मुख्य साइटमा जानुहोस्</a>
+    <div class="header">
+        <h1><i class="fas fa-user-shield"></i> एडमिन ड्यासबोर्ड</h1>
+        <p>श्री बैजनाथ माध्यमिक विद्यालय - डाटा व्यवस्थापन</p>
+    </div>
+
+    <div class="box">
+        <h3><i class="fas fa-file-invoice"></i> विद्यार्थीको रिजल्ट हाल्नुहोस्</h3>
+        <form id="resultForm">
+            <div class="grid">
+                <input type="text" id="sym" placeholder="सिम्बोल नम्बर (उदा: 101)" required>
+                <input type="text" id="class" placeholder="कक्षा (उदा: 10)" required>
+                <input type="text" id="name" style="grid-column: span 2;" placeholder="विद्यार्थीको पूरा नाम" required>
+                <input type="text" id="eng" placeholder="English (Grade)">
+                <input type="text" id="math" placeholder="Math (Grade)">
+                <input type="text" id="sci" placeholder="Science (Grade)">
+                <input type="text" id="nep" placeholder="Nepali (Grade)">
+                <input type="text" id="gpa" placeholder="GPA (उदा: 3.6)" required>
+                <input type="text" id="res" placeholder="Result (PASS/FAIL)" required>
+            </div>
+            <button type="button" id="resBtn" onclick="submitResult()">रिजल्ट सेभ गर्नुहोस्</button>
+        </form>
+    </div>
+
+    <div class="box">
+        <h3><i class="fas fa-user-tie"></i> नयाँ शिक्षक विवरण थप्नुहोस्</h3>
+        <form id="teacherForm">
+            <div class="grid">
+                <input type="text" id="tName" placeholder="शिक्षकको नाम" required>
+                <input type="text" id="tDes" placeholder="पद (उदा: सहायक प्रधानाध्यापक)" required>
+                <input type="text" id="tPhoto" style="grid-column: span 2;" placeholder="फोटोको डाइरेक्ट लिङ्क (ImgBB बाट)" required>
+            </div>
+            <button type="button" id="tBtn" class="btn-teacher" onclick="submitTeacher()">शिक्षक थप्नुहोस्</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // नयाँ URL अपडेट गरिएको छ
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbySzHqN2iQ-pECVHPLCVNukNdkzw00NpPDLeMiYJIFQ3jc-2SZ8tHw5iwy3bboyTICzsw/exec";
+
+    async function submitResult() {
+        const btn = document.getElementById('resBtn');
+        const formData = {
+            action: "addResult",
+            symbol: document.getElementById('sym').value,
+            class: document.getElementById('class').value,
+            name: document.getElementById('name').value,
+            english: document.getElementById('eng').value,
+            math: document.getElementById('math').value,
+            science: document.getElementById('sci').value,
+            nepali: document.getElementById('nep').value,
+            gpa: document.getElementById('gpa').value,
+            result: document.getElementById('res').value
+        };
+        btn.innerText = "सेभ हुँदैछ..."; btn.disabled = true;
+        try {
+            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
+            alert("रिजल्ट सफलतापूर्वक सेभ भयो!");
+            document.getElementById('resultForm').reset();
+        } catch(e) { alert("Error!"); } finally { btn.innerText = "रिजल्ट सेभ गर्नुहोस्"; btn.disabled = false; }
+    }
+
+    async function submitTeacher() {
+        const btn = document.getElementById('tBtn');
+        const formData = {
+            action: "updateTeacher",
+            name: document.getElementById('tName').value,
+            designation: document.getElementById('tDes').value,
+            photoUrl: document.getElementById('tPhoto').value
+        };
+        btn.innerText = "थपिँदैछ..."; btn.disabled = true;
+        try {
+            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
+            alert("शिक्षक विवरण सफलतापूर्वक थपियो!");
+            document.getElementById('teacherForm').reset();
+        } catch(e) { alert("Error!"); } finally { btn.innerText = "शिक्षक थप्नुहोस्"; btn.disabled = false; }
+    }
+</script>
+</body>
+</html>
