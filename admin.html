@@ -3,196 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SBSS Admin Panel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Admin Dashboard | SBSS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #1a4a8e; 
+            --accent: #d71920; 
+            --bg: #f0f2f5; 
+            --gold: #D97706;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; margin: 0; }
+        .admin-container { max-width: 900px; margin: auto; }
+        .box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; border-top: 5px solid var(--primary); }
+        .box.notice-box { border-top-color: var(--gold); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        textarea { resize: vertical; min-height: 80px; grid-column: span 2; }
+        button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        button:hover { background: #133669; transform: scale(1.01); }
+        .header { text-align: center; color: var(--primary); margin-bottom: 30px; }
+        .btn-teacher { background: #28a745; }
+        .btn-teacher:hover { background: #218838; }
+        .btn-notice { background: var(--gold); }
+        .btn-notice:hover { background: #b45309; }
+        .back-btn { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; margin-bottom: 20px; }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body>
 
-    <header class="bg-blue-700 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold">Shree Baijanath Secondary School - Admin Dashboard</h1>
-            <span class="bg-blue-800 px-3 py-1 rounded text-sm font-semibold">Authorized Only</span>
-        </div>
-    </header>
+<div class="admin-container">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> मुख्य साइटमा जानुहोस्</a>
+    <div class="header">
+        <h1><i class="fas fa-user-shield"></i> एडमिन ड्यासबोرد</h1>
+        <p>श्री बैजनाथ माध्यमिक विद्यालय - डाटा व्यवस्थापन पोर्टल</p>
+    </div>
 
-    <main class="container mx-auto my-8 p-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="box notice-box">
+        <h3><i class="fas fa-bullhorn"></i> मुख्य स्क्रोलिङ सूचना (Ticker) फेर्नुहोस्</h3>
+        <form id="tickerForm">
+            <div>
+                <input type="text" id="tickerText" placeholder="वेबसाइटको माथि हिँड्ने मुख्य सूचना यहाँ लेख्नुहोस्..." required>
+            </div>
+            <button type="button" id="tickBtn" class="btn-notice" onclick="updateTicker()">टिकर सूचना अपडेट गर्नुहोस</button>
+        </form>
+    </div>
 
-        <section class="bg-white p-6 rounded-lg shadow border-t-4 border-amber-500">
-            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">📢 नयाँ सूचना (Notice) थप्नुहोस्</h2>
-            <form id="noticeForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">सूचनाको शीर्षक</label>
-                    <input type="text" id="noticeTitle" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">मिति छान्नुहोस्</label>
-                    <input type="date" id="noticeDate" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">सूचनाको विस्तृत विवरण (Content)</label>
-                    <textarea id="noticeContent" rows="4" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded transition shadow">Publish Notice</button>
-            </form>
-        </section>
+    <div class="box notice-box">
+        <h3><i class="fas fa-clipboard-list"></i> सूचना बोर्डमा नयाँ नोटिस थप्नुहोस् (Notice Board)</h3>
+        <form id="noticeForm">
+            <div class="grid">
+                <input type="text" id="nMonth" placeholder="महिना अंग्रेजीमा (उदा: JUN, MAY)" required>
+                <input type="number" id="nDay" placeholder="गते वा दिन (उदा: ११, २८)" required>
+                <input type="text" id="nTitle" style="grid-column: span 2;" placeholder="सूचनाको मुख्य शीर्षक" required>
+                <textarea id="nContent" placeholder="सूचनाको विस्तृत विवरण यहाँ लेख्नुहोस्..."></textarea>
+            </div>
+            <button type="button" id="notBtn" class="btn-notice" onclick="submitNotice()">सूचना बोर्डमा पोस्ट गर्नुहोस</button>
+        </form>
+    </div>
 
-        <section class="bg-white p-6 rounded-lg shadow border-t-4 border-purple-600">
-            <h2 class="text-lg font-bold text-gray-800 mb-4">🏃 मुख्य सूचना (Scrolling Ticker) फेर्नुहोस्</h2>
-            <form id="tickerForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">वेबसाइटमा हिँड्ने सूचना टेक्स्ट</label>
-                    <input type="text" id="tickerText" required placeholder="जस्तै: नयाँ भर्ना खुल्यो..." class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                </div>
-                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition shadow">Update Ticker</button>
-            </form>
-        </section>
+    <div class="box">
+        <h3><i class="fas fa-file-invoice"></i> विद्यार्थीको रिजल्ट हाल्नुहोस्</h3>
+        <form id="resultForm">
+            <div class="grid">
+                <input type="text" id="sym" placeholder="सिम्बोल नम्बर (उदा: 101)" required>
+                <select id="class" required style="margin-top:5px;">
+                    <option value="">कक्षा छान्नुहोस्</option>
+                    <option value="11">Class 11</option>
+                    <option value="12">Class 12</option>
+                </select>
+                <input type="text" id="name" style="grid-column: span 2;" placeholder="विद्यार्थीको पूरा नाम" required>
+                <input type="text" id="eng" placeholder="English (Grade)">
+                <input type="text" id="math" placeholder="Math (Grade)">
+                <input type="text" id="sci" placeholder="Science (Grade)">
+                <input type="text" id="nep" placeholder="Nepali (Grade)">
+                <input type="text" id="gpa" placeholder="GPA (उदा: 3.6)" required>
+                <input type="text" id="res" placeholder="Result (Passed/Failed)" required>
+            </div>
+            <button type="button" id="resBtn" onclick="submitResult()">रिजल्ट सेभ गर्नुहोस्</button>
+        </form>
+    </div>
 
-        <section class="bg-white p-6 rounded-lg shadow border-t-4 border-blue-600">
-            <h2 class="text-lg font-bold text-gray-800 mb-4">🎓 विद्यार्थीको नयाँ रिजल्ट थप्नुहोस्</h2>
-            <form id="resultForm" class="space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">विद्यार्थीको नाम</label>
-                    <input type="text" id="studentName" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">सिम्बोल नम्बर</label>
-                    <input type="text" id="symbol" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">कक्षा</label>
-                    <input type="text" id="class" required placeholder="11 वा 12" class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">English GPA</label>
-                    <input type="text" id="english" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Math GPA</label>
-                    <input type="text" id="math" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Science GPA</label>
-                    <input type="text" id="science" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Nepali GPA</label>
-                    <input type="text" id="nepali" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Final GPA</label>
-                    <input type="text" id="gpa" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">नतिजा स्थिति</label>
-                    <select id="status" class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                        <option value="Passed">Passed</option>
-                        <option value="Withheld">Withheld</option>
-                        <option value="Failed">Failed</option>
-                    </select>
-                </div>
-                <div class="sm:col-span-2">
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition shadow">Add Result</button>
-                </div>
-            </form>
-        </section>
+    <div class="box">
+        <h3><i class="fas fa-user-tie"></i> नयाँ शिक्षक विवरण थप्नुहोस्</h3>
+        <form id="teacherForm">
+            <div class="grid">
+                <input type="text" id="tName" placeholder="शिक्षकको नाम" required>
+                <input type="text" id="tDes" placeholder="पद (उदा: सहायक प्रधानाध्यापक)" required>
+                <input type="text" id="tPhoto" style="grid-column: span 2;" placeholder="फोटोको डाइरेक्ट लिङ्क (ImgBB बाट)" required>
+            </div>
+            <button type="button" id="tBtn" class="btn-teacher" onclick="submitTeacher()">शिक्षक थप्नुहोस्</button>
+        </form>
+    </div>
+</div>
 
-        <section class="bg-white p-6 rounded-lg shadow border-t-4 border-green-600">
-            <h2 class="text-lg font-bold text-gray-800 mb-4">👨‍🏫 नयाँ शिक्षक विवरण थप्नुहोस्</h2>
-            <form id="teacherForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">शिक्षकको पूरा नाम</label>
-                    <input type="text" id="teacherName" required class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">पद (Designation)</label>
-                    <input type="text" id="designation" required placeholder="जस्तै: Principal, Computer Teacher" class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">फोटोको लिङ्क (Image URL)</label>
-                    <input type="url" id="photoUrl" required placeholder="https://example.com/photo.jpg" class="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm">
-                </div>
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition shadow">Add Teacher</button>
-            </form>
-        </section>
-
-    </main>
-
-    <script>
+<script>
+    // तिमीले पठाएको नयाँ Web App URL
     const webAppUrl = "https://script.google.com/macros/s/AKfycbzQJC7i7BZ8GDGAButj2CiYE6bc4-ccVV6zwzXVgEf9LdejNEpKn6UqVLxqA89NvdaXhA/exec";
 
-    // १. नोटिस सेभ गर्ने
-    document.getElementById('noticeForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = this.querySelector('button'); btn.innerText = "Publishing..."; btn.disabled = true;
-        const d = new Date(document.getElementById('noticeDate').value);
-        const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-        
-        fetch(webAppUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify({
-                action: "addNotice",
-                title: document.getElementById('noticeTitle').value,
-                month: months[d.getMonth()] || "NOT",
-                day: d.getDate(),
-                date: document.getElementById('noticeDate').value,
-                content: document.getElementById('noticeContent').value
-            })
-        }).then(() => { alert('सूचना पब्लिश भयो!'); this.reset(); })
-        .finally(() => { btn.innerText = "Publish Notice"; btn.disabled = false; });
-    });
+    // १. मुख्य टिकर अपडेट गर्ने फङ्ग्सन
+    async function updateTicker() {
+        const btn = document.getElementById('tickBtn');
+        const text = document.getElementById('tickerText').value;
+        if(!text) return alert("कृपया टिकर टेक्स्ट लेख्नुहोस्।");
 
-    // २. टिकर अपडेट गर्ने
-    document.getElementById('tickerForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = this.querySelector('button'); btn.innerText = "Updating..."; btn.disabled = true;
-        fetch(webAppUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify({ action: "updateTicker", tickerText: document.getElementById('tickerText').value })
-        }).then(() => { alert('म्युख सूचना अपडेट भयो!'); this.reset(); })
-        .finally(() => { btn.innerText = "Update Ticker"; btn.disabled = false; });
-    });
+        const formData = {
+            action: "updateTicker",
+            ticker: text
+        };
+        btn.innerText = "अपडेट हुँदैछ..."; btn.disabled = true;
+        try {
+            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
+            alert("मुख्य स्क्रोलिङ सूचना सफलतापूर्वक अपडेट भयो!");
+            document.getElementById('tickerForm').reset();
+        } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "टिकर सूचना अपडेट गर्नुहोस"; btn.disabled = false; }
+    }
 
-    // ३. रिजल्ट थप्ने
-    document.getElementById('resultForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = this.querySelector('button'); btn.innerText = "Saving..."; btn.disabled = true;
-        fetch(webAppUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify({
-                action: "addResult",
-                symbol: document.getElementById('symbol').value,
-                class: document.getElementById('class').value,
-                name: document.getElementById('studentName').value,
-                english: document.getElementById('english').value,
-                math: document.getElementById('math').value,
-                science: document.getElementById('science').value,
-                nepali: document.getElementById('nepali').value,
-                gpa: document.getElementById('gpa').value,
-                result: document.getElementById('status').value
-            })
-        }).then(() => { alert('रिजल्ट सेभ भयो!'); this.reset(); })
-        .finally(() => { btn.innerText = "Add Result"; btn.disabled = false; });
-    });
+    // २. सूचना बोर्डमा नयाँ नोटिस थप्ने फङ्ग्सन
+    async function submitNotice() {
+        const btn = document.getElementById('notBtn');
+        const formData = {
+            action: "addNotice",
+            month: document.getElementById('nMonth').value,
+            day: document.getElementById('nDay').value,
+            title: document.getElementById('nTitle').value,
+            content: document.getElementById('nContent').value
+        };
+        if(!formData.month || !formData.day || !formData.title) return alert("महिना, गते र शीर्षक अनिवार्य भर्नुहोस्।");
 
-    // ४. शिक्षक थप्ने
-    document.getElementById('teacherForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = this.querySelector('button'); btn.innerText = "Adding..."; btn.disabled = true;
-        fetch(webAppUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify({
-                action: "updateTeacher",
-                name: document.getElementById('teacherName').value,
-                designation: document.getElementById('designation').value,
-                photoUrl: document.getElementById('photoUrl').value
-            })
-        }).then(() => { alert('शिक्षक थपियो!'); this.reset(); })
-        .finally(() => { btn.innerText = "Add Teacher"; btn.disabled = false; });
-    });
-    </script>
+        btn.innerText = "पोस्ट हुँदैछ..."; btn.disabled = true;
+        try {
+            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
+            alert("नयाँ सूचना सफलतापूर्वक बोर्डमा पोस्ट भयो!");
+            document.getElementById('noticeForm').reset();
+        } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "सूचना बोर्डमा पोस्ट गर्नुहोस"; btn.disabled = false; }
+    }
+
+    // ३. विद्यार्थी रिजल्ट सेभ गर्ने फङ्ग्सन
+    async function submitResult() {
+        const btn = document.getElementById('resBtn');
+        const formData = {
+            action: "addResult",
+            symbol: document.getElementById('sym').value,
+            class: document.getElementById('class').value,
+            name: document.getElementById('name').value,
+            english: document.getElementById('eng').value,
+            math: document.getElementById('math').value,
+            science: document.getElementById('sci').value,
+            nepali: document.getElementById('nep').value,
+            gpa: document.getElementById('gpa').value,
+            result: document.getElementById('res').value
+        };
+        if(!formData.symbol || !formData.class || !formData.name) return alert("सिम्बोल, कक्षा र नाम अनिवार्य छ।");
+
+        btn.innerText = "सेभ हुँदैछ..."; btn.disabled = true;
+        try {
+            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
+            alert("रिजल्ट सफलतापूर्वक सेभ भयो!");
+            document.getElementById('resultForm').reset();
+        } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "रिजल्ट सेभ गर्नुहोस्"; btn.disabled = false; }
+    }
+
+    // ४. शिक्षक विवरण थप्ने फङ्ग्सन
+    async function submitTeacher() {
+        const btn = document.getElementById('tBtn');
+        const formData = {
+            action: "updateTeacher",
+            name: document.getElementById('tName').value,
+            designation: document.getElementById('tDes').value,
+            photoUrl: document.getElementById('tPhoto').value
+        };
+        if(!formData.name || !formData.designation) return alert("शिक्षकको नाम र पद भर्नुहोस्।");
+
+        btn.innerText = "थपिँदैछ..."; btn.disabled = true;
+        try {
+            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
+            alert("शिक्षक विवरण सफलतापूर्वक थपियो!");
+            document.getElementById('teacherForm').reset();
+        } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "शिक्षक थप्नुहोस्"; btn.disabled = false; }
+    }
+</script>
 </body>
 </html>
