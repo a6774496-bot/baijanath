@@ -11,13 +11,20 @@
         .admin-container { max-width: 900px; margin: auto; }
         .box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; border-top: 5px solid var(--primary); }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        textarea { height: 120px; resize: vertical; }
         button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; }
         button:hover { background: #133669; transform: scale(1.01); }
         .header { text-align: center; color: var(--primary); margin-bottom: 30px; }
         .btn-teacher { background: #28a745; }
         .btn-teacher:hover { background: #218838; }
+        .btn-notice { background: #D97706; }
+        .btn-notice:hover { background: #b45309; }
         .back-btn { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; margin-bottom: 20px; }
+        .notice-list-admin { margin-top: 15px; padding-left: 0; list-style: none; }
+        .notice-item-admin { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; background: #fafafa; margin-bottom: 5px; border-radius: 4px; }
+        .del-btn { width: auto; padding: 6px 12px; background: var(--accent); margin-top: 0; font-size: 0.85rem; }
+        .del-btn:hover { background: #bd1319; }
     </style>
 </head>
 <body>
@@ -27,6 +34,35 @@
     <div class="header">
         <h1><i class="fas fa-user-shield"></i> एडमिन ड्यासबोर्ड</h1>
         <p>श्री बैजनाथ माध्यमिक विद्यालय - डाटा व्यवस्थापन</p>
+    </div>
+
+    <div class="box">
+        <h3><i class="fas fa-bullhorn"></i> होमपेजको मुख्य सूचना (Ticker Text) फेर्नुहोस्</h3>
+        <div style="display: flex; gap: 10px; align-items: flex-end;">
+            <div style="flex: 1;">
+                <input type="text" id="tickerTextInput" placeholder="यहाँ नयाँ मुख्य सूचना टाइप गर्नुहोस्...">
+            </div>
+            <button type="button" id="tickerBtn" style="width: 150px; margin-top: 0;" onclick="updateTicker()">सूचना फेर्नुहोस्</button>
+        </div>
+    </div>
+
+    <div class="box">
+        <h3><i class="fas fa-envelope-open-text"></i> नयाँ अफिसियल नोटिस / चिठ्ठी जारी गर्नुहोस्</h3>
+        <form id="noticeForm">
+            <div class="grid">
+                <input type="text" id="nTitle" style="grid-column: span 2;" placeholder="सूचनाको शीर्षक (उदा: हिउँदे बिदा सम्बन्धी अत्यन्त जरुरी सूचना)" required>
+                <input type="text" id="nMonth" placeholder="महिना अंग्रेजीमा (उदा: JAN, FEB, MAR)" required>
+                <input type="text" id="nDay" placeholder="गते नेपालीमा (उदा: १५, २८)" required>
+                <input type="text" id="nFullDate" style="grid-column: span 2;" placeholder="पूरा मिति नेपालीमा (उदा: २०८३/०३/१५)" required>
+            </div>
+            <textarea id="nContent" style="margin-top: 15px;" placeholder="पत्र वा सूचनाको पूर्ण विवरण यहाँ लेख्नुहोस् (यो विवरण चिठ्ठीको ढाँचामा आफैं देखिनेछ...)" required></textarea>
+            <button type="button" id="noticeBtn" class="btn-notice" onclick="submitNotice()">अफिसियल नोटिस पब्लिश गर्नुहोस्</button>
+        </form>
+        
+        <h4 style="margin-top:25px; color:var(--primary); border-top:1px dashed #ccc; padding-top:15px;">हालका नोटिसहरू (डिलिट गर्न मिल्ने)</h4>
+        <ul id="adminNoticeList" class="notice-list-admin">
+            <li>लोड हुँदैछ...</li>
+        </ul>
     </div>
 
     <div class="box">
@@ -61,8 +97,87 @@
 </div>
 
 <script>
-    // नयाँ URL अपडेट गरिएको छ
     const webAppUrl = "https://script.google.com/macros/s/AKfycbySzHqN2iQ-pECVHPLCVNukNdkzw00NpPDLeMiYJIFQ3jc-2SZ8tHw5iwy3bboyTICzsw/exec";
+
+    window.onload = function() {
+        loadAdminNotices();
+    };
+
+    // हालका नोटिसहरू एडमिन प्यानलमा लोड गर्ने
+    async function loadAdminNotices() {
+        const listUl = document.getElementById('adminNoticeList');
+        try {
+            const res = await fetch(webAppUrl + "?action=getNoticesAndTicker");
+            const data = await res.json();
+            document.getElementById('tickerTextInput').value = data.ticker || "";
+            const notices = data.notices || [];
+            
+            if(notices.length === 0) {
+                listUl.innerHTML = "<li>कुनै नोटिस फेला परेन।</li>";
+                return;
+            }
+            listUl.innerHTML = notices.map((n, index) => `
+                <li class="notice-item-admin">
+                    <span><b>[${n.date}]</b> ${n.title}</span>
+                    <button class="del-btn" onclick="deleteNotice(${index})"><i class="fas fa-trash"></i> हटाउनुहोस्</button>
+                </li>
+            `).join('');
+        } catch(e) { listUl.innerHTML = "<li>लोड गर्दा समस्या भयो।</li>"; }
+    }
+
+    // मुख्य सूचना टिकर अपडेट गर्ने
+    async function updateTicker() {
+        const btn = document.getElementById('tickerBtn');
+        const text = document.getElementById('tickerTextInput').value.trim();
+        if(!text) return alert("मुख्य सूचना खाली छोड्न मिल्दैन।");
+        
+        btn.innerText = "फेरिँदैछ..."; btn.disabled = true;
+        try {
+            await fetch(webAppUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({ action: "updateTicker", tickerText: text })
+            });
+            alert("मुख्य सूचना सफलतापूर्वक परिवर्तन भयो!");
+        } catch(e) { alert("त्रुटि भयो!"); }
+        finally { btn.innerText = "सूचना फेर्नुहोस्"; btn.disabled = false; }
+    }
+
+    // नयाँ नोटिस सेभ गर्ने
+    async function submitNotice() {
+        const btn = document.getElementById('noticeBtn');
+        const formData = {
+            action: "addNotice",
+            title: document.getElementById('nTitle').value,
+            month: document.getElementById('nMonth').value,
+            day: document.getElementById('nDay').value,
+            date: document.getElementById('nFullDate').value,
+            content: document.getElementById('nContent').value
+        };
+        
+        btn.innerText = "पब्लिश हुँदैछ..."; btn.disabled = true;
+        try {
+            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
+            alert("अफिसियल नोटिस सफलतापूर्वक जारी भयो!");
+            document.getElementById('noticeForm').reset();
+            loadAdminNotices();
+        } catch(e) { alert("Error!"); }
+        finally { btn.innerText = "अफिसियल नोटिस पब्लिश गर्नुहोस्"; btn.disabled = false; }
+    }
+
+    // नोटिस डिलिट गर्ने प्रकार्य
+    async function deleteNotice(index) {
+        if(!confirm("के तपाईं यो सूचना हटाउन निश्चित हुनुहुन्छ?")) return;
+        try {
+            await fetch(webAppUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({ action: "deleteNotice", index: index })
+            });
+            alert("सूचना हटाइयो!");
+            loadAdminNotices();
+        } catch(e) { alert("त्रुटि भयो!"); }
+    }
 
     async function submitResult() {
         const btn = document.getElementById('resBtn');
