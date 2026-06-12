@@ -404,95 +404,49 @@
 </footer>
 
 <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbySzHqN2iQ-pECVHPLCVNukNdkzw00NpPDLeMiYJIFQ3jc-2SZ8tHw5iwy3bboyTICzsw/exec";
-    let loadedNotices = [];
+// तिमीले दिएको नयाँ API URL यहाँ पनि सेट गरिएको छ
+const webAppUrl = "https://script.google.com/macros/s/AKfycbzQJC7i7BZ8GDGAButj2CiYE6bc4-ccVV6zwzXVgEf9LdejNEpKn6UqVLxqA89NvdaXhA/exec";
 
-    // सुरुमै लोड हुने प्रकार्यहरू
-    window.onload = function() {
-        fetchTickerAndNotices();
-    };
+// होमपेज लोड हुँदा नोटिस र टिकर तान्ने फङ्ग्सन
+function loadNoticesAndTicker() {
+    const tickerContainer = document.getElementById('tickerMarquee'); // तिम्रो marquee वा ticker को ID
+    const noticeContainer = document.getElementById('noticeSection'); // नोटिस देखाउने डिभ (div) को ID
 
-    async function fetchTickerAndNotices() {
-        try {
-            // टिकर र नोटिसहरू तान्नका लागि एपीआई कल 
-            const res = await fetch(webAppUrl + "?action=getNoticesAndTicker");
-            const data = await res.json();
-            
-            // मुख्य टिकर अपडेट 
-            document.getElementById('mainTicker').innerText = data.ticker || "कुनै मुख्य सूचना उपलब्ध छैन।";
-            
-            // नोटिस सूची अपडेट
-            loadedNotices = data.notices || [];
-            const listDiv = document.getElementById('dynamicNoticeList');
-            
-            if(loadedNotices.length === 0) {
-                listDiv.innerHTML = "<li style='text-align:center; color:var(--text-muted);'>कुनै सूचना फेला परेन।</li>";
-                return;
-            }
-            
-            listDiv.innerHTML = loadedNotices.map((n, idx) => `
-                <li class="notice-item">
-                    <div class="notice-date">${n.month || 'NOTICE'} <span>${n.day || '•'}</span></div>
-                    <span class="notice-link" onclick="openNoticeModal(${idx})">${n.title}</span>
-                </li>
-            `).join('');
-        } catch(e) {
-            document.getElementById('mainTicker').innerText = "सर्भर जडानमा समस्या भयो।";
-            document.getElementById('dynamicNoticeList').innerHTML = "<li style='color:var(--pu-red); text-align:center;'>सूचना लोड हुन सकेन।</li>";
+    fetch(`${webAppUrl}?action=getNoticesAndTicker`)
+    .then(response => response.json())
+    .then(data => {
+        // क) टिकर टेक्स्ट हाल्ने
+        if(data.ticker && tickerContainer) {
+            tickerContainer.innerText = data.ticker;
         }
-    }
 
-    function openNoticeModal(idx) {
-        const notice = loadedNotices[idx];
-        document.getElementById('popupNoticeTitle').innerText = notice.title;
-        document.getElementById('popupNoticeDate').innerText = "मिति: " + (notice.date || "तोकिएको छैन");
-        document.getElementById('popupNoticeBody').innerText = notice.content;
-        document.getElementById('noticeModal').style.display = "block";
-    }
+        // ख) नोटिसहरू डाइनामिकली देखाउने
+        if(data.notices && data.notices.length > 0 && noticeContainer) {
+            noticeContainer.innerHTML = ""; // पुरानो खाली गर्ने
+            data.notices.forEach(notice => {
+                noticeContainer.innerHTML += `
+                    <div class="bg-white p-4 mb-3 rounded shadow-sm border-l-4 border-blue-600">
+                        <div class="flex items-center mb-2">
+                            <div class="bg-blue-100 text-blue-800 text-center p-2 rounded mr-3 min-w-[50px]">
+                                <span class="block text-xs font-bold">${notice.month}</span>
+                                <span class="block text-lg font-extrabold leading-none">${notice.day}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800">${notice.title}</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm whitespace-pre-line">${notice.content}</p>
+                        <span class="text-xs text-gray-400 block mt-2">मिति: ${notice.date}</span>
+                    </div>
+                `;
+            });
+        } else if(noticeContainer) {
+            noticeContainer.innerHTML = "<p class='text-gray-500 text-center'>अहिले कुनै पनि नयाँ सूचना छैन।</p>";
+        }
+    })
+    .catch(err => console.error("Error loading data: ", err));
+}
 
-    function closeNoticeModal() { document.getElementById('noticeModal').style.display = "none"; }
-    function openAdmissionModal() { document.getElementById('admissionModal').style.display = "block"; }
-    function closeAdmissionModal() { document.getElementById('admissionModal').style.display = "none"; }
-
-    async function fetchTeachers() {
-        const div = document.getElementById('teacherSection');
-        div.innerHTML = "<p style='grid-column: 1/-1; text-align:center; font-weight:600; padding: 20px 0;'>👨‍🏫 शिक्षक विवरण लोड हुँदैछ...</p>";
-        try {
-            const res = await fetch(webAppUrl + "?action=getTeachers");
-            const data = await res.json();
-            div.innerHTML = data.map(t => `<div class="teacher-card">
-                <img src="${t.photoUrl || 'https://via.placeholder.com/80'}" alt="${t.name}">
-                <h4 style="color:var(--pu-blue); font-size:1rem; font-weight:700;">${t.name}</h4>
-                <small style="color:var(--text-muted); font-weight:500;">${t.designation}</small></div>`).join('');
-        } catch(e) { div.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:var(--pu-red);'>विवरण लोड गर्न सकिएन।</p>"; }
-    }
-
-    async function searchResult() {
-        const cl = document.getElementById('sClass').value.trim();
-        const sy = document.getElementById('sSymbol').value.trim();
-        const out = document.getElementById('resOutput');
-        if(!cl || !sy) return alert("सबै विवरण भर्नुहोस्।");
-        out.style.display = 'block'; out.innerHTML = "<p style='color:white;'>🔍 खोज्दैछ...</p>";
-        try {
-            const res = await fetch(`${webAppUrl}?action=getResult&symbol=${encodeURIComponent(sy)}&class=${encodeURIComponent(cl)}`);
-            const d = await res.json();
-            if(d && d.name && d.name !== "Not found") {
-                out.innerHTML = `
-                <div style="background:white; color:#333; padding:30px; border-radius:8px; max-width:550px; margin:auto; text-align:left; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
-                    <h3 style="text-align:center; border-bottom:2px solid var(--pu-blue); padding-bottom:10px; color:var(--pu-blue); font-weight:700;">Grade Sheet - 2081</h3>
-                    <p style="margin: 15px 0 10px; font-size:0.95rem;"><b>नाम:</b> ${d.name} | <b>सिम्बोल:</b> ${sy} | <b>कक्षा:</b> ${cl}</p>
-                    <table style="width:100%; border-collapse:collapse; margin:15px 0;">
-                        <tr style="background:#f1f5f9;"><th style="border:1px solid #ddd; padding:10px; text-align:left;">Subject</th><th style="border:1px solid #ddd; padding:10px; text-align:center;">Grade</th></tr>
-                        <tr><td style="border:1px solid #ddd; padding:10px;">English</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-weight:600;">${d.english || '-'}</td></tr>
-                        <tr><td style="border:1px solid #ddd; padding:10px;">Nepali</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-weight:600;">${d.nepali || '-'}</td></tr>
-                        <tr><td style="border:1px solid #ddd; padding:10px;">Math</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-weight:600;">${d.math || '-'}</td></tr>
-                        <tr style="background:#FEF3C7; font-weight:bold; color:#B45309;"><td style="border:1px solid #ddd; padding:10px;">GPA</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-size:1.1rem;">${d.gpa || '-'}</td></tr>
-                    </table>
-                    <button onclick="window.print()" class="print-btn-hide" style="width:100%; padding:12px; cursor:pointer; background:var(--pu-blue); color:white; border:none; border-radius:4px; font-weight:700;"><i class="fas fa-print"></i> मार्कसिट प्रिन्ट गर्नुहोस्</button>
-                </div>`;
-            } else { out.innerHTML = "<p style='color:#FCA5A5;'>नतिजा भेटिएन।</p>"; }
-        } catch(e) { out.innerHTML = "<p style='color:#FCA5A5;'>त्रुटि भयो!</p>"; }
-    }
+// पेज लोड भएपछि रन गर्ने
+document.addEventListener('DOMContentLoaded', loadNoticesAndTicker);
 </script>
 </body>
 </html>
