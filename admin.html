@@ -97,125 +97,144 @@
 </div>
 
 <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbySzHqN2iQ-pECVHPLCVNukNdkzw00NpPDLeMiYJIFQ3jc-2SZ8tHw5iwy3bboyTICzsw/exec";
+// तिमीले दिएको नयाँ API URL यहाँ सेट गरिएको छ
+const webAppUrl = "https://script.google.com/macros/s/AKfycbzQJC7i7BZ8GDGAButj2CiYE6bc4-ccVV6zwzXVgEf9LdejNEpKn6UqVLxqA89NvdaXhA/exec";
 
-    window.onload = function() {
-        loadAdminNotices();
+// १. नयाँ रिजल्ट थप्ने (Add Result)
+document.getElementById('resultForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.innerText = "Saving...";
+    submitBtn.disabled = true;
+
+    const formData = {
+        action: "addResult",
+        symbol: document.getElementById('symbol').value,
+        class: document.getElementById('class').value,
+        name: document.getElementById('studentName').value,
+        english: document.getElementById('english').value,
+        math: document.getElementById('math').value,
+        science: document.getElementById('science').value,
+        nepali: document.getElementById('nepali').value,
+        gpa: document.getElementById('gpa').value,
+        result: document.getElementById('status').value
     };
 
-    // हालका नोटिसहरू एडमिन प्यानलमा लोड गर्ने
-    async function loadAdminNotices() {
-        const listUl = document.getElementById('adminNoticeList');
-        try {
-            const res = await fetch(webAppUrl + "?action=getNoticesAndTicker");
-            const data = await res.json();
-            document.getElementById('tickerTextInput').value = data.ticker || "";
-            const notices = data.notices || [];
-            
-            if(notices.length === 0) {
-                listUl.innerHTML = "<li>कुनै नोटिस फेला परेन।</li>";
-                return;
-            }
-            listUl.innerHTML = notices.map((n, index) => `
-                <li class="notice-item-admin">
-                    <span><b>[${n.date}]</b> ${n.title}</span>
-                    <button class="del-btn" onclick="deleteNotice(${index})"><i class="fas fa-trash"></i> हटाउनुहोस्</button>
-                </li>
-            `).join('');
-        } catch(e) { listUl.innerHTML = "<li>लोड गर्दा समस्या भयो।</li>"; }
-    }
+    fetch(webAppUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(() => {
+        alert('विद्यार्थीको रिजल्ट सफलतापूर्वक सेभ भयो!');
+        this.reset();
+    })
+    .catch(err => alert('Error: ' + err))
+    .finally(() => {
+        submitBtn.innerText = "Add Result";
+        submitBtn.disabled = false;
+    });
+});
 
-    // मुख्य सूचना टिकर अपडेट गर्ने
-    async function updateTicker() {
-        const btn = document.getElementById('tickerBtn');
-        const text = document.getElementById('tickerTextInput').value.trim();
-        if(!text) return alert("मुख्य सूचना खाली छोड्न मिल्दैन।");
-        
-        btn.innerText = "फेरिँदैछ..."; btn.disabled = true;
-        try {
-            await fetch(webAppUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({ action: "updateTicker", tickerText: text })
-            });
-            alert("मुख्य सूचना सफलतापूर्वक परिवर्तन भयो!");
-        } catch(e) { alert("त्रुटि भयो!"); }
-        finally { btn.innerText = "सूचना फेर्नुहोस्"; btn.disabled = false; }
-    }
+// २. नयाँ शिक्षक थप्ने (Add Teacher)
+document.getElementById('teacherForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.innerText = "Adding...";
+    submitBtn.disabled = true;
 
-    // नयाँ नोटिस सेभ गर्ने
-    async function submitNotice() {
-        const btn = document.getElementById('noticeBtn');
-        const formData = {
-            action: "addNotice",
-            title: document.getElementById('nTitle').value,
-            month: document.getElementById('nMonth').value,
-            day: document.getElementById('nDay').value,
-            date: document.getElementById('nFullDate').value,
-            content: document.getElementById('nContent').value
-        };
-        
-        btn.innerText = "पब्लिश हुँदैछ..."; btn.disabled = true;
-        try {
-            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
-            alert("अफिसियल नोटिस सफलतापूर्वक जारी भयो!");
-            document.getElementById('noticeForm').reset();
-            loadAdminNotices();
-        } catch(e) { alert("Error!"); }
-        finally { btn.innerText = "अफिसियल नोटिस पब्लिश गर्नुहोस्"; btn.disabled = false; }
-    }
+    const formData = {
+        action: "updateTeacher",
+        name: document.getElementById('teacherName').value,
+        designation: document.getElementById('designation').value,
+        photoUrl: document.getElementById('photoUrl').value
+    };
 
-    // नोटिस डिलिट गर्ने प्रकार्य
-    async function deleteNotice(index) {
-        if(!confirm("के तपाईं यो सूचना हटाउन निश्चित हुनुहुन्छ?")) return;
-        try {
-            await fetch(webAppUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({ action: "deleteNotice", index: index })
-            });
-            alert("सूचना हटाइयो!");
-            loadAdminNotices();
-        } catch(e) { alert("त्रुटि भयो!"); }
-    }
+    fetch(webAppUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(() => {
+        alert('शिक्षक विवरण सफलतापूर्वक थपियो!');
+        this.reset();
+    })
+    .catch(err => alert('Error: ' + err))
+    .finally(() => {
+        submitBtn.innerText = "Add Teacher";
+        submitBtn.disabled = false;
+    });
+});
 
-    async function submitResult() {
-        const btn = document.getElementById('resBtn');
-        const formData = {
-            action: "addResult",
-            symbol: document.getElementById('sym').value,
-            class: document.getElementById('class').value,
-            name: document.getElementById('name').value,
-            english: document.getElementById('eng').value,
-            math: document.getElementById('math').value,
-            science: document.getElementById('sci').value,
-            nepali: document.getElementById('nep').value,
-            gpa: document.getElementById('gpa').value,
-            result: document.getElementById('res').value
-        };
-        btn.innerText = "सेभ हुँदैछ..."; btn.disabled = true;
-        try {
-            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
-            alert("रिजल्ट सफलतापूर्वक सेभ भयो!");
-            document.getElementById('resultForm').reset();
-        } catch(e) { alert("Error!"); } finally { btn.innerText = "रिजल्ट सेभ गर्नुहोस्"; btn.disabled = false; }
-    }
+// ३. नयाँ नोटिस थप्ने (Add Notice)
+document.getElementById('noticeForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.innerText = "Publishing...";
+    submitBtn.disabled = true;
 
-    async function submitTeacher() {
-        const btn = document.getElementById('tBtn');
-        const formData = {
-            action: "updateTeacher",
-            name: document.getElementById('tName').value,
-            designation: document.getElementById('tDes').value,
-            photoUrl: document.getElementById('tPhoto').value
-        };
-        btn.innerText = "थपिँदैछ..."; btn.disabled = true;
-        try {
-            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
-            alert("शिक्षक विवरण सफलतापूर्वक थपियो!");
-            document.getElementById('teacherForm').reset();
-        } catch(e) { alert("Error!"); } finally { btn.innerText = "शिक्षक थप्नुहोस्"; btn.disabled = false; }
-    }
+    // मितिबाट महिना र गते छुट्टाउने
+    const dateVal = new Date(document.getElementById('noticeDate').value);
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    const month = months[dateVal.getMonth()] || "NOTICE";
+    const day = dateVal.getDate() || "00";
+    const fullDate = document.getElementById('noticeDate').value;
+
+    const formData = {
+        action: "addNotice",
+        title: document.getElementById('noticeTitle').value,
+        month: month,
+        day: day,
+        date: fullDate,
+        content: document.getElementById('noticeContent').value
+    };
+
+    fetch(webAppUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(() => {
+        alert('नयाँ सूचना (Notice) पब्लिश भयो!');
+        this.reset();
+    })
+    .catch(err => alert('Error: ' + err))
+    .finally(() => {
+        submitBtn.innerText = "Publish Notice";
+        submitBtn.disabled = false;
+    });
+});
+
+// ४. मुख्य सूचना (Ticker Text) अपडेट गर्ने
+document.getElementById('tickerForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.innerText = "Updating...";
+    submitBtn.disabled = true;
+
+    const formData = {
+        action: "updateTicker",
+        tickerText: document.getElementById('tickerText').value
+    };
+
+    fetch(webAppUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(() => {
+        alert('मुख्य सूचना (Ticker) सफलतापूर्वक अपडेट भयो!');
+    })
+    .catch(err => alert('Error: ' + err))
+    .finally(() => {
+        submitBtn.innerText = "Update Ticker";
+        submitBtn.disabled = false;
+    });
+});
 </script>
 </body>
 </html>
