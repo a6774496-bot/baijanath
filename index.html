@@ -31,8 +31,8 @@
         }
         .top-bar-contact { display: flex; gap: 20px; }
         .top-bar-contact span i { color: var(--pu-gold); margin-right: 6px; }
-        .top-bar-links a { color: rgba(255,255,255,0.8); text-decoration: none; margin-left: 15px; font-weight: 500; }
-        .top-bar-links a:hover { color: var(--pu-gold); }
+        .top-bar-links a, .top-bar-links span { color: rgba(255,255,255,0.8); text-decoration: none; margin-left: 15px; font-weight: 500; cursor: pointer; }
+        .top-bar-links a:hover, .top-bar-links span:hover { color: var(--pu-gold); }
 
         /* --- 2. Main University Navbar --- */
         .navbar { 
@@ -56,7 +56,7 @@
         .ticker-title { background: var(--pu-gold); color: white; padding: 12px 24px; font-weight: 700; font-size: 0.9rem; white-space: nowrap; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
         .ticker-marquee { padding: 10px; font-weight: 600; font-size: 0.95rem; color: #92400E; }
 
-        /* --- 4. Fixed Hero Section (अब टेक्स्ट पुरै देखिन्छ) --- */
+        /* --- 4. Hero Section --- */
         .hero { 
             background: linear-gradient(rgba(10, 37, 64, 0.8), rgba(10, 37, 64, 0.85)), url('p11.jpg'); 
             background-size: cover; background-position: center; min-height: 40vh; 
@@ -92,8 +92,29 @@
         .notice-item:last-child { border-bottom: none; }
         .notice-date { background: var(--pu-blue); color: white; padding: 8px; border-radius: 6px; text-align: center; min-width: 60px; font-size: 0.75rem; font-weight: 600; line-height: 1.2; }
         .notice-date span { display: block; font-size: 1.2rem; font-weight: 800; color: var(--pu-gold); }
-        .notice-item a { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 0.95rem; transition: 0.2s; }
-        .notice-item a:hover { color: var(--pu-red); }
+        .notice-item span.notice-link { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 0.95rem; transition: 0.2s; cursor: pointer; }
+        .notice-item span.notice-link:hover { color: var(--pu-red); }
+
+        /* --- Modals (Popup Forms / Official Notice Form) --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); overflow-y: auto; padding: 20px 10px; }
+        .modal-content { background: white; max-width: 650px; margin: 30px auto; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; }
+        .close-btn { position: absolute; right: 20px; top: 15px; font-size: 1.8rem; cursor: pointer; color: #aaa; }
+        .close-btn:hover { color: black; }
+
+        /* Official Letterhead Style */
+        .letterhead { text-align: center; border-bottom: 3px double var(--pu-blue); padding-bottom: 15px; margin-bottom: 20px; }
+        .letterhead h2 { color: var(--pu-blue); font-size: 1.6rem; font-weight: 800; }
+        .letterhead p { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+        .notice-meta { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; color: #475569; margin-bottom: 25px; }
+        .notice-body-text { font-size: 1.05rem; line-height: 1.8; color: #1e293b; text-align: justify; margin-bottom: 40px; white-space: pre-line; }
+        .letter-footer { text-align: right; font-weight: 700; color: var(--pu-blue); margin-top: 30px; }
+
+        /* Admission Form Style */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+        .submit-form-btn { background: var(--pu-blue); color: white; border: none; padding: 12px; width: 100%; font-weight: 700; border-radius: 4px; cursor: pointer; transition: 0.2s; }
+        .submit-form-btn:hover { background: var(--pu-gold); }
 
         /* --- 6. University Facts Banner --- */
         .facts-banner { background: linear-gradient(rgba(10,37,64,0.92), rgba(10,37,64,0.95)), url('p11.jpg'); background-size: cover; background-position: center; color: white; padding: 70px 20px; text-align: center; }
@@ -105,8 +126,8 @@
         .load-btn:hover { background: #b45309; transform: translateY(-2px); }
 
         /* Dynamic Teacher Cards */
-        .teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; max-width: 1250px; margin: 40px auto; padding: 0 24px; }
-        .teacher-card { text-align: center; background: white; padding: 25px 15px; border-radius: 8px; box-shadow: var(--shadow); border: 1px solid #E2E8F0; transition: 0.3s; }
+        .teacher-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; max-width: 1250px; margin: 0 auto; padding: 0 24px; }
+        .teacher-card { text-align: center; background: white; padding: 25px 15px; border-radius: 8px; box-shadow: var(--shadow); border: 1px solid #E2E8F0; transition: 0.3s; margin-bottom: 25px; }
         .teacher-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
         .teacher-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 3px solid #F1F5F9; }
 
@@ -143,6 +164,14 @@
         .footer-col p { margin-bottom: 12px; line-height: 1.8; }
         .footer-bottom { text-align: center; padding-top: 25px; font-size: 0.85rem; color: #64748B; font-weight: 500; }
 
+        /* Print Optimization */
+        @media print {
+            body * { visibility: hidden; }
+            #resOutput, #resOutput * { visibility: visible; }
+            #resOutput { position: absolute; left: 0; top: 0; width: 100%; }
+            .print-btn-hide { display: none !important; }
+        }
+
         @media (max-width: 900px) {
             .main-container, .facts-grid, .footer-grid, .faculties-grid { grid-template-columns: 1fr; gap: 30px; }
             .top-bar { display: none; }
@@ -161,7 +190,7 @@
     </div>
     <div class="top-bar-links">
         <a href="#result">मार्कसिट पोर्टल</a>
-        <a href="#about">भर्ना फारम</a>
+        <span onclick="openAdmissionModal()">भर्ना फारम</span>
         <a href="#pta">PTA समिति</a>
     </div>
 </div>
@@ -186,7 +215,7 @@
 
 <div class="ticker-wrapper">
     <div class="ticker-title"><i class="fas fa-bullhorn"></i> मुख्य सूचना:</div>
-    <marquee class="ticker-marquee" scrollamount="4">वि.सं. २०८१ सालको प्रथम त्रैमासिक परीक्षाको परीक्षाफल अनलाइन मार्कसिट पोर्टलमा प्रकाशन गरिएको छ। आफ्नो नतिजा तल रहेको पोर्टलबाट सिम्बोल नम्बर राखेर हेर्न सक्नुहुनेछ।</marquee>
+    <marquee id="mainTicker" class="ticker-marquee" scrollamount="4">लोड हुँदैछ...</marquee>
 </div>
 
 <div class="hero">
@@ -195,7 +224,6 @@
 </div>
 
 <div class="main-container" id="about">
-    
     <div class="left-column">
         <div class="welcome-box">
             <h2 class="section-title">विद्यालयको परिचय</h2>
@@ -205,7 +233,7 @@
                 <img src="p6.png.jpg" alt="Principal" class="principal-img">
                 <div>
                     <h4>प्रधानाध्यापकको सन्देश</h4>
-                    <p style="font-style: italic; font-size: 1rem; margin-top: 6px; color: var(--text-muted);">"हामी आजको २१ औं शताब्दी सुहाउँदो प्रविधिमैत्री, व्यवहारिक र व्यावसायिक शिक्षा प्रदान गरेर विद्यार्थीहरूको उज्ज्वल भविष्य निर्माण गर्नका लागि पूर्ण रूपमा प्रतिबद्ध छौं।"</p>
+                    <p style="font-style: italic; font-size: 1rem; margin-top: 6px; color: var(--text-muted);">&quot;हामी आजको २१ औं शताब्दी सुहाउँदो प्रविधिमैत्री, व्यवहारिक र व्यावसायिक शिक्षा प्रदान गरेर विद्यार्थीहरूको उज्ज्वल भविष्य निर्माण गर्नका लागि पूर्ण रूपमा प्रतिबद्ध छौं।&quot;</p>
                     <strong style="font-size: 0.95rem; color: var(--pu-blue); display:block; margin-top:10px;">– नवराज पन्त (प्रधानाध्यापक)</strong>
                 </div>
             </div>
@@ -229,19 +257,8 @@
     <div class="right-column">
         <h2 class="section-title">सूचना र समाचारहरू</h2>
         <div class="sidebar-card">
-            <ul class="notice-list">
-                <li class="notice-item">
-                    <div class="notice-date">JUN <span>११</span></div>
-                    <a href="#">कक्षा १० र १२ को नयाँ भर्ना आवेदन फारम खुला गरिएको सम्बन्धी सूचना।</a>
-                </li>
-                <li class="notice-item">
-                    <div class="notice-date">MAY <span>२८</span></div>
-                    <a href="#">शिक्षक अभिभावक संघ (PTA) को आगामी बैठक बस्ने सूचना।</a>
-                </li>
-                <li class="notice-item">
-                    <div class="notice-date">MAY <span>१५</span></div>
-                    <a href="#">विद्यालय भवन र नयाँ कम्प्युटर ल्याब उद्घाटन कार्यक्रम सम्बन्धी प्रेस विज्ञप्ति।</a>
-                </li>
+            <ul class="notice-list" id="dynamicNoticeList">
+                <li style="text-align:center; color:var(--text-muted);">सूचना लोड हुँदैछ...</li>
             </ul>
         </div>
 
@@ -254,24 +271,70 @@
     </div>
 </div>
 
+<div id="noticeModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeNoticeModal()">&times;</span>
+        <div class="letterhead">
+            <h2>श्री बैजनाथ माध्यमिक विद्यालय</h2>
+            <p>बेदकोट-२, जडेपानी, कञ्चनपुर | फोन: +९७७-९९-५४००००</p>
+            <p style="letter-spacing:1px; margin-top:5px; color:var(--pu-red); font-weight:700;">कार्यालय सूचना / प्रेस विज्ञप्ति</p>
+        </div>
+        <div class="notice-meta">
+            <span>प.सं.: २०८३/०८४</span>
+            <span id="popupNoticeDate">मिति: </span>
+        </div>
+        <h3 id="popupNoticeTitle" style="text-align:center; color:var(--pu-blue); margin-bottom:20px; font-weight:800; text-decoration: underline;"></h3>
+        <div id="popupNoticeBody" class="notice-body-text"></div>
+        <div class="letter-footer">
+            <p>_______________________</p>
+            <p style="margin-top:5px;">(प्रशासन विभाग)</p>
+            <p style="font-size:0.85rem; color:var(--text-muted);">श्री बैजनाथ मा.वि.</p>
+        </div>
+    </div>
+</div>
+
+<div id="admissionModal" class="modal">
+    <div class="modal-content" style="max-width:500px;">
+        <span class="close-btn" onclick="closeAdmissionModal()">&times;</span>
+        <h3 style="color:var(--pu-blue); border-bottom:2px solid var(--pu-gold); padding-bottom:10px; margin-bottom:20px; text-align:center; font-weight:800;"><i class="fas fa-edit"></i> अनलाइन डिजिटल भर्ना आवेदन फारम</h3>
+        
+        <form action="https://formspree.io/f/xkn3774496" method="POST">
+            <div class="form-group">
+                <label>विद्यार्थीको पूरा नाम (Full Name):</label>
+                <input type="text" name="Student Name" required>
+            </div>
+            <div class="form-group">
+                <label>अभिभावकको नाम (Guardian Name):</label>
+                <input type="text" name="Guardian Name" required>
+            </div>
+            <div class="form-group">
+                <label>सम्पर्क फोन नम्बर (Mobile No):</label>
+                <input type="tel" name="Phone Number" required>
+            </div>
+            <div class="form-group">
+                <label>भर्ना हुन चाहेको कक्षा / संकाय:</label>
+                <select name="Applied Course" required>
+                    <option value="">छनोट गर्नुहोस्</option>
+                    <option value="Class 11 - Computer Engineering">कम्प्युटर इन्जिनियरिङ (कक्षा ११)</option>
+                    <option value="Class 11 - Science">विज्ञान संकाय (+२)</option>
+                    <option value="Other Class Admission">अन्य कक्षा भर्ना</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>स्थायी ठेगाना (Address):</label>
+                <input type="text" name="Address" required>
+            </div>
+            <button type="submit" class="submit-form-btn">आवेदन फारम बुझाउनुहोस्</button>
+        </form>
+    </div>
+</div>
+
 <div class="facts-banner">
     <div class="facts-grid">
-        <div class="fact-box">
-            <h2>११००+</h2>
-            <p>अध्ययनरत विद्यार्थी</p>
-        </div>
-        <div class="fact-box">
-            <h2>४५+</h2>
-            <p>दक्ष शिक्षक / कर्मचारी</p>
-        </div>
-        <div class="fact-box">
-            <h2>२०३५</h2>
-            <p>स्थापना वर्ष (BS)</p>
-        </div>
-        <div class="fact-box">
-            <h2>१००%</h2>
-            <p>प्रविधिमैत्री सिकाइ</p>
-        </div>
+        <div class="fact-box"><h2>११००+</h2><p>अध्ययनरत विद्यार्थी</p></div>
+        <div class="fact-box"><h2>४५+</h2><p>दक्ष शिक्षक / कर्मचारी</p></div>
+        <div class="fact-box"><h2>२०३५</h2><p>स्थापना वर्ष (BS)</p></div>
+        <div class="fact-box"><h2>१००%</h2><p>प्रविधिमैत्री सिकाइ</p></div>
     </div>
     <button class="load-btn" onclick="fetchTeachers()"><i class="fas fa-users"></i> कार्यरत शिक्षक विवरण हेर्नुहोस्</button>
 </div>
@@ -281,9 +344,7 @@
 <div class="pta-section" id="pta">
     <h2 class="section-title">शिक्षक अभिभावक संघ (PTA) कार्यसमिति</h2>
     <table class="pta-table">
-        <thead>
-            <tr><th>नाम / पद</th><th>ठेगाना</th></tr>
-        </thead>
+        <thead><tr><th>नाम / पद</th><th>ठेगाना</th></tr></thead>
         <tbody>
             <tr><td><b>नवराज भट्ट</b> (अध्यक्ष)</td><td>बेदकोट नगरपालिका-२, कञ्चनपुर</td></tr>
             <tr><td><b>लबदेब जोशी</b> (सदस्य)</td><td>बेनपा-१, कञ्चनपुर</td></tr>
@@ -298,7 +359,7 @@
 <div class="gallery-section" id="gallery">
     <h2 class="section-title">फोटो ग्यालरी (Media Gallery)</h2>
     <div class="gallery-grid">
-        <div class="gallery-item"><img src="p9.jpg" alt="Training"><div class="caption">शिक्षक तालिम कार्यक्रम</div></div>
+        <div class="gallery-item"><img src="p9.jpg" alt="Training"><div class="caption">शिक्षक तालिका कार्यक्रम</div></div>
         <div class="gallery-item"><img src="p10.jpg" alt="Speech"><div class="caption">Motivation Speech by Harish Oli</div></div>
         <div class="gallery-item"><img src="p1.png" alt="Building"><div class="caption">विद्यालय मुख्य भवन</div></div>
         <div class="gallery-item"><img src="p2.png" alt="Lab"><div class="caption">विज्ञान प्रयोगशाला</div></div>
@@ -328,7 +389,7 @@
             <h3>महत्त्वपूर्ण लिङ्कहरू</h3>
             <p><a href="#about" style="color:#94A3B8; text-decoration:none;">हाम्रो बारेमा</a></p>
             <p><a href="#academics" style="color:#94A3B8; text-decoration:none;">संकायहरू</a></p>
-            <p><a href="#result" style="color:#94A3B8; text-decoration:none;">नतिजा खोज्नुहोस्</a></p>
+            <p><span onclick="openAdmissionModal()" style="color:#94A3B8; text-decoration:none; cursor:pointer;">अनलाइन भर्ना फारम</span></p>
         </div>
         <div class="footer-col">
             <h3>सम्पर्क कार्यालय</h3>
@@ -344,10 +405,58 @@
 
 <script>
     const webAppUrl = "https://script.google.com/macros/s/AKfycbySzHqN2iQ-pECVHPLCVNukNdkzw00NpPDLeMiYJIFQ3jc-2SZ8tHw5iwy3bboyTICzsw/exec";
+    let loadedNotices = [];
+
+    // सुरुमै लोड हुने प्रकार्यहरू
+    window.onload = function() {
+        fetchTickerAndNotices();
+    };
+
+    async function fetchTickerAndNotices() {
+        try {
+            // टिकर र नोटिसहरू तान्नका लागि एपीआई कल 
+            const res = await fetch(webAppUrl + "?action=getNoticesAndTicker");
+            const data = await res.json();
+            
+            // मुख्य टिकर अपडेट 
+            document.getElementById('mainTicker').innerText = data.ticker || "कुनै मुख्य सूचना उपलब्ध छैन।";
+            
+            // नोटिस सूची अपडेट
+            loadedNotices = data.notices || [];
+            const listDiv = document.getElementById('dynamicNoticeList');
+            
+            if(loadedNotices.length === 0) {
+                listDiv.innerHTML = "<li style='text-align:center; color:var(--text-muted);'>कुनै सूचना फेला परेन।</li>";
+                return;
+            }
+            
+            listDiv.innerHTML = loadedNotices.map((n, idx) => `
+                <li class="notice-item">
+                    <div class="notice-date">${n.month || 'NOTICE'} <span>${n.day || '•'}</span></div>
+                    <span class="notice-link" onclick="openNoticeModal(${idx})">${n.title}</span>
+                </li>
+            `).join('');
+        } catch(e) {
+            document.getElementById('mainTicker').innerText = "सर्भर जडानमा समस्या भयो।";
+            document.getElementById('dynamicNoticeList').innerHTML = "<li style='color:var(--pu-red); text-align:center;'>सूचना लोड हुन सकेन।</li>";
+        }
+    }
+
+    function openNoticeModal(idx) {
+        const notice = loadedNotices[idx];
+        document.getElementById('popupNoticeTitle').innerText = notice.title;
+        document.getElementById('popupNoticeDate').innerText = "मिति: " + (notice.date || "तोकिएको छैन");
+        document.getElementById('popupNoticeBody').innerText = notice.content;
+        document.getElementById('noticeModal').style.display = "block";
+    }
+
+    function closeNoticeModal() { document.getElementById('noticeModal').style.display = "none"; }
+    function openAdmissionModal() { document.getElementById('admissionModal').style.display = "block"; }
+    function closeAdmissionModal() { document.getElementById('admissionModal').style.display = "none"; }
 
     async function fetchTeachers() {
         const div = document.getElementById('teacherSection');
-        div.innerHTML = "<p style='grid-column: 1/-1; text-align:center; font-weight:600;'>शिक्षक विवरण लोड हुँदैछ...</p>";
+        div.innerHTML = "<p style='grid-column: 1/-1; text-align:center; font-weight:600; padding: 20px 0;'>👨‍🏫 शिक्षक विवरण लोड हुँदैछ...</p>";
         try {
             const res = await fetch(webAppUrl + "?action=getTeachers");
             const data = await res.json();
@@ -359,29 +468,30 @@
     }
 
     async function searchResult() {
-        const cl = document.getElementById('sClass').value;
-        const sy = document.getElementById('sSymbol').value;
+        const cl = document.getElementById('sClass').value.trim();
+        const sy = document.getElementById('sSymbol').value.trim();
         const out = document.getElementById('resOutput');
         if(!cl || !sy) return alert("सबै विवरण भर्नुहोस्।");
-        out.style.display = 'block'; out.innerHTML = "<p style='color:white;'>खोज्दैछ...</p>";
+        out.style.display = 'block'; out.innerHTML = "<p style='color:white;'>🔍 खोज्दैछ...</p>";
         try {
-            const res = await fetch(`${webAppUrl}?symbol=${sy}&class=${cl}`);
+            const res = await fetch(`${webAppUrl}?action=getResult&symbol=${encodeURIComponent(sy)}&class=${encodeURIComponent(cl)}`);
             const d = await res.json();
-            if(d.name && d.name !== "Not found") {
-                out.innerHTML = `<div style="background:white; color:#333; padding:30px; border-radius:8px; max-width:550px; margin:auto; text-align:left; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+            if(d && d.name && d.name !== "Not found") {
+                out.innerHTML = `
+                <div style="background:white; color:#333; padding:30px; border-radius:8px; max-width:550px; margin:auto; text-align:left; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
                     <h3 style="text-align:center; border-bottom:2px solid var(--pu-blue); padding-bottom:10px; color:var(--pu-blue); font-weight:700;">Grade Sheet - 2081</h3>
-                    <p style="margin: 15px 0 10px; font-size:0.95rem;"><b>नाम:</b> ${d.name} | <b>सिम्बोल:</b> ${sy}</p>
+                    <p style="margin: 15px 0 10px; font-size:0.95rem;"><b>नाम:</b> ${d.name} | <b>सिम्बोल:</b> ${sy} | <b>कक्षा:</b> ${cl}</p>
                     <table style="width:100%; border-collapse:collapse; margin:15px 0;">
                         <tr style="background:#f1f5f9;"><th style="border:1px solid #ddd; padding:10px; text-align:left;">Subject</th><th style="border:1px solid #ddd; padding:10px; text-align:center;">Grade</th></tr>
                         <tr><td style="border:1px solid #ddd; padding:10px;">English</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-weight:600;">${d.english || '-'}</td></tr>
                         <tr><td style="border:1px solid #ddd; padding:10px;">Nepali</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-weight:600;">${d.nepali || '-'}</td></tr>
                         <tr><td style="border:1px solid #ddd; padding:10px;">Math</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-weight:600;">${d.math || '-'}</td></tr>
-                        <tr style="background:#FEF3C7; font-weight:bold; color:#B45309;"><td style="border:1px solid #ddd; padding:10px;">GPA</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-size:1.1rem;">${d.gpa}</td></tr>
+                        <tr style="background:#FEF3C7; font-weight:bold; color:#B45309;"><td style="border:1px solid #ddd; padding:10px;">GPA</td><td style="border:1px solid #ddd; padding:10px; text-align:center; font-size:1.1rem;">${d.gpa || '-'}</td></tr>
                     </table>
-                    <button onclick="window.print()" style="width:100%; padding:12px; cursor:pointer; background:var(--pu-blue); color:white; border:none; border-radius:4px; font-weight:700;"><i class="fas fa-print"></i> मार्कसिट प्रिन्ट गर्नुहोस्</button>
+                    <button onclick="window.print()" class="print-btn-hide" style="width:100%; padding:12px; cursor:pointer; background:var(--pu-blue); color:white; border:none; border-radius:4px; font-weight:700;"><i class="fas fa-print"></i> मार्कसिट प्रिन्ट गर्नुहोस्</button>
                 </div>`;
-            } else { out.innerHTML = "<p style='color:var(--pu-red); font-weight:600;'>नतिजा भेटिएन।</p>"; }
-        } catch(e) { out.innerHTML = "<p style='color:var(--pu-red);'>त्रुटि भयो!</p>"; }
+            } else { out.innerHTML = "<p style='color:#FCA5A5;'>नतिजा भेटिएन।</p>"; }
+        } catch(e) { out.innerHTML = "<p style='color:#FCA5A5;'>त्रुटि भयो!</p>"; }
     }
 </script>
 </body>
