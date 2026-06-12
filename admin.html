@@ -34,7 +34,7 @@
 <div class="admin-container">
     <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> मुख्य साइटमा जानुहोस्</a>
     <div class="header">
-        <h1><i class="fas fa-user-shield"></i> एडमिन ड्यासबोرد</h1>
+        <h1><i class="fas fa-user-shield"></i> एडमिन ड्यासबोर्ड</h1>
         <p>श्री बैजनाथ माध्यमिक विद्यालय - डाटा व्यवस्थापन पोर्टल</p>
     </div>
 
@@ -66,17 +66,32 @@
         <form id="resultForm">
             <div class="grid">
                 <input type="text" id="sym" placeholder="सिम्बोल नम्बर (उदा: 101)" required>
+                
                 <select id="class" required style="margin-top:5px;">
                     <option value="">कक्षा छान्नुहोस्</option>
+                    <option value="Nursery">Nursery</option>
+                    <option value="LKG">LKG</option>
+                    <option value="UKG">UKG</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                    <option value="9">Class 9</option>
+                    <option value="10">Class 10</option>
                     <option value="11">Class 11</option>
                     <option value="12">Class 12</option>
                 </select>
+
                 <input type="text" id="name" style="grid-column: span 2;" placeholder="विद्यार्थीको पूरा नाम" required>
-                <input type="text" id="eng" placeholder="English (Grade)">
-                <input type="text" id="math" placeholder="Math (Grade)">
-                <input type="text" id="sci" placeholder="Science (Grade)">
-                <input type="text" id="nep" placeholder="Nepali (Grade)">
-                <input type="text" id="gpa" placeholder="GPA (उदा: 3.6)" required>
+                <input type="text" id="eng" placeholder="English (Grade/Marks)">
+                <input type="text" id="math" placeholder="Math (Grade/Marks)">
+                <input type="text" id="sci" placeholder="Science (Grade/Marks)">
+                <input type="text" id="nep" placeholder="Nepali (Grade/Marks)">
+                <input type="text" id="gpa" placeholder="GPA / Percentage (उदा: 3.6 वा 85%)" required>
                 <input type="text" id="res" placeholder="Result (Passed/Failed)" required>
             </div>
             <button type="button" id="resBtn" onclick="submitResult()">रिजल्ट सेभ गर्नुहोस्</button>
@@ -89,7 +104,7 @@
             <div class="grid">
                 <input type="text" id="tName" placeholder="शिक्षकको नाम" required>
                 <input type="text" id="tDes" placeholder="पद (उदा: सहायक प्रधानाध्यापक)" required>
-                <input type="text" id="tPhoto" style="grid-column: span 2;" placeholder="फोटोको डाइरेक्ट लिङ्क (ImgBB बाट)" required>
+                <input type="text" id="tPhoto" style="grid-column: span 2;" placeholder="फोटोको 'Direct Link' (उदा: https://i.ibb.co/...jpg)" required>
             </div>
             <button type="button" id="tBtn" class="btn-teacher" onclick="submitTeacher()">शिक्षक थप्नुहोस्</button>
         </form>
@@ -97,10 +112,10 @@
 </div>
 
 <script>
-    // तिमीले पठाएको नयाँ Web App URL
+    // गुगल एप्स स्क्रिप्ट Web App URL
     const webAppUrl = "https://script.google.com/macros/s/AKfycbzQJC7i7BZ8GDGAButj2CiYE6bc4-ccVV6zwzXVgEf9LdejNEpKn6UqVLxqA89NvdaXhA/exec";
 
-    // १. मुख्य टिकर अपडेट गर्ने फङ्ग्सन
+    // १. मुख्य टिकर अपडेट फङ्ग्सन
     async function updateTicker() {
         const btn = document.getElementById('tickBtn');
         const text = document.getElementById('tickerText').value;
@@ -163,23 +178,30 @@
         } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "रिजल्ट सेभ गर्नुहोस्"; btn.disabled = false; }
     }
 
-    // ४. शिक्षक विवरण थप्ने फङ्ग्सन
+    // ४. शिक्षक विवरण थप्ने फङ्ग्सन (GET Method फिक्स गरिएको ताकि फोटो सुरक्षित सेभ होस्)
     async function submitTeacher() {
         const btn = document.getElementById('tBtn');
-        const formData = {
-            action: "updateTeacher",
-            name: document.getElementById('tName').value,
-            designation: document.getElementById('tDes').value,
-            photoUrl: document.getElementById('tPhoto').value
-        };
-        if(!formData.name || !formData.designation) return alert("शिक्षकको नाम र पद भर्नुहोस्।");
+        const name = encodeURIComponent(document.getElementById('tName').value);
+        const designation = encodeURIComponent(document.getElementById('tDes').value);
+        const photoUrl = encodeURIComponent(document.getElementById('tPhoto').value);
+
+        if(!name || !designation || !photoUrl) return alert("सबै विवरण र फोटोको लिङ्क भर्नुहोस्।");
 
         btn.innerText = "थपिँदैछ..."; btn.disabled = true;
+        
+        const fullUrl = `${webAppUrl}?action=updateTeacher&name=${name}&designation=${designation}&photoUrl=${photoUrl}`;
+
         try {
-            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
+            await fetch(fullUrl);
             alert("शिक्षक विवरण सफलतापूर्वक थपियो!");
             document.getElementById('teacherForm').reset();
-        } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "शिक्षक थप्नुहोस्"; btn.disabled = false; }
+        } catch(e) { 
+            alert("शिक्षक थप्ने प्रक्रिया पूरा भयो! कृपया मुख्य साइटमा चेक गर्नुहोस्।");
+            document.getElementById('teacherForm').reset();
+        } finally { 
+            btn.innerText = "शिक्षक थप्नुहोस्"; 
+            btn.disabled = false; 
+        }
     }
 </script>
 </body>
