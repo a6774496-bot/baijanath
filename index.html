@@ -125,7 +125,12 @@
         .gallery-item img { width: 100%; height: 210px; object-fit: cover; }
         .gallery-item .caption { padding: 16px; text-align: center; font-weight: 600; font-size: 0.95rem; color: var(--pu-blue); border-top: 1px solid #F1F5F9; }
 
-        /* --- 7. Result Section (Marksheet Portal) --- */
+        /* --- 7. Admission Section (New) --- */
+        .admission-container { max-width: 1250px; margin: 50px auto; padding: 0 24px; }
+        .admission-wrapper { background: white; padding: 40px; border-radius: 12px; box-shadow: var(--shadow-md); border-top: 5px solid #10B981; }
+        .admission-iframe { width: 100%; height: 700px; border: none; border-radius: 6px; margin-top: 20px; }
+
+        /* --- 8. Result Section (Marksheet Portal) --- */
         .result-container { max-width: 1250px; margin: 50px auto; padding: 0 24px; }
         .result-wrapper { background: linear-gradient(135deg, #1E293B, #0F172A); color: white; padding: 60px 40px; border-radius: 12px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         .result-wrapper h2 { font-size: 2rem; font-weight: 800; margin-bottom: 15px; color: var(--pu-gold); }
@@ -162,7 +167,7 @@
     </div>
     <div class="top-bar-links">
         <a href="#result">मार्कसिट पोर्टल</a>
-        <a href="#about">भर्ना फारम</a>
+        <a href="#admission">भर्ना फारम</a>
         <a href="#pta">PTA समिति</a>
     </div>
 </div>
@@ -294,6 +299,17 @@
     </div>
 </div>
 
+<!-- नयाँ थपिएको: अनलाइन भर्ना फारम सेक्सन -->
+<div class="admission-container" id="admission">
+    <div class="admission-wrapper">
+        <h2 class="section-title" style="border-left-color: #10B981;"><i class="fas fa-file-signature"></i> अनलाइन भर्ना आवेदन फारम (Online Admission Portal)</h2>
+        <p style="color: var(--text-muted); margin-bottom: 15px;">नयाँ शैक्षिक सत्रमा भर्ना हुन चाहने विद्यार्थीहरूले तलको आधिकारिक गुगल फारम पूर्ण रूपमा भरेर सबमिट गर्नुहोला।</p>
+        
+        <!-- आफ्नो गुगल फारमको लिङ्क यहाँ हाल्नुहोला -->
+        <iframe class="admission-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSfD_YOUR_GOOGLE_FORM_ID_HERE/viewform?embedded=true">लोड हुँदैछ…</iframe>
+    </div>
+</div>
+
 <div class="result-container" id="result">
     <div class="result-wrapper">
         <h2>अनलाइन मार्कसिट पोर्टल (Online Grade Sheet System)</h2>
@@ -301,6 +317,19 @@
         <div class="search-box">
             <select id="sClass">
                 <option value="">कक्षा छान्नुहोस्</option>
+                <option value="Nursery">Nursery</option>
+                <option value="LKG">LKG</option>
+                <option value="UKG">UKG</option>
+                <option value="1">Class 1</option>
+                <option value="2">Class 2</option>
+                <option value="3">Class 3</option>
+                <option value="4">Class 4</option>
+                <option value="5">Class 5</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+                <option value="9">Class 9</option>
+                <option value="10">Class 10</option>
                 <option value="11">Class 11</option>
                 <option value="12">Class 12</option>
             </select>
@@ -336,10 +365,8 @@
 </footer>
 
 <script>
-    // तिमीले पठाएको नयाँ Web App API URL
     const webAppUrl = "https://script.google.com/macros/s/AKfycbwMIBRkV-c6tEcbBbkR36nmOIIgRwOTIZwTpHvEXfNxju85CFP_fmusOX5PhB98fR60iA/exec";
 
-    // १. पेज खुल्ने बित्तिकै नोटिस र टिकर लोड गराउने फङ्ग्सन
     function loadNoticesAndTicker() {
         const ticker = document.getElementById('tickerMarquee');
         const noticeBox = document.getElementById('noticeSection');
@@ -370,7 +397,6 @@
         });
     }
 
-    // २. शिक्षकहरूको लिष्ट तान्ने
     async function fetchTeachers() {
         const div = document.getElementById('teacherSection');
         div.innerHTML = "<p style='grid-column: 1/-1; text-align:center; font-weight:600;'>शिक्षक विवरण लोड हुँदैछ...</p>";
@@ -391,7 +417,6 @@
         }
     }
 
-    // ३. मार्कसिट रिजल्ट खोज्ने फङ्ग्सन
     async function searchResult() {
         const cl = document.getElementById('sClass').value;
         const sy = document.getElementById('sSymbol').value;
