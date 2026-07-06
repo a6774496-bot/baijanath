@@ -112,8 +112,8 @@
 </div>
 
 <script>
-    // गुगल एप्स स्क्रिप्ट Web App URL
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbzQJC7i7BZ8GDGAButj2CiYE6bc4-ccVV6zwzXVgEf9LdejNEpKn6UqVLxqA89NvdaXhA/exec";
+    // तिमीले दिएको नयाँ र अपडेटेड Web App API URL
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwMIBRkV-c6tEcbBbkR36nmOIIgRwOTIZwTpHvEXfNxju85CFP_fmusOX5PhB98fR60iA/exec";
 
     // १. मुख्य टिकर अपडेट फङ्ग्सन
     async function updateTicker() {
@@ -189,6 +189,7 @@
 
         btn.innerText = "थपिँदैछ..."; btn.disabled = true;
         
+        // तिम्रो स्क्रिप्ट र इन्डेक्स डट एचटीएमएलसँग मिल्ने गरी URL मिलाइएको छ
         const fullUrl = `${webAppUrl}?action=updateTeacher&name=${name}&designation=${designation}&photoUrl=${photoUrl}`;
 
         try {
