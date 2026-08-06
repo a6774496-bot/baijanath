@@ -38,6 +38,7 @@
         <p>श्री बैजनाथ माध्यमिक विद्यालय - डाटा व्यवस्थापन पोर्टल</p>
     </div>
 
+    <!-- १. स्क्रोलिङ सूचना (Ticker) -->
     <div class="box notice-box">
         <h3><i class="fas fa-bullhorn"></i> मुख्य स्क्रोलिङ सूचना (Ticker) फेर्नुहोस्</h3>
         <form id="tickerForm">
@@ -48,12 +49,13 @@
         </form>
     </div>
 
+    <!-- २. सूचना बोर्ड -->
     <div class="box notice-box">
         <h3><i class="fas fa-clipboard-list"></i> सूचना बोर्डमा नयाँ नोटिस थप्नुहोस् (Notice Board)</h3>
         <form id="noticeForm">
             <div class="grid">
                 <input type="text" id="nMonth" placeholder="महिना अंग्रेजीमा (उदा: JUN, MAY)" required>
-                <input type="number" id="nDay" placeholder="गते वा दिन (उदा: ११, २८)" required>
+                <input type="number" id="nDay" placeholder="गते वा दिन (उदा: 11, 28)" required>
                 <input type="text" id="nTitle" style="grid-column: span 2;" placeholder="सूचनाको मुख्य शीर्षक" required>
                 <textarea id="nContent" placeholder="सूचनाको विस्तृत विवरण यहाँ लेख्नुहोस्..."></textarea>
             </div>
@@ -61,6 +63,7 @@
         </form>
     </div>
 
+    <!-- ३. विद्यार्थीको रिजल्ट -->
     <div class="box">
         <h3><i class="fas fa-file-invoice"></i> विद्यार्थीको रिजल्ट हाल्नुहोस्</h3>
         <form id="resultForm">
@@ -98,6 +101,7 @@
         </form>
     </div>
 
+    <!-- ४. शिक्षक विवरण -->
     <div class="box">
         <h3><i class="fas fa-user-tie"></i> नयाँ शिक्षक विवरण थप्नुहोस्</h3>
         <form id="teacherForm">
@@ -112,28 +116,25 @@
 </div>
 
 <script>
-    // तिमीले दिएको नयाँ र अपडेटेड Web App API URL
     const webAppUrl = "https://script.google.com/macros/s/AKfycbwMIBRkV-c6tEcbBbkR36nmOIIgRwOTIZwTpHvEXfNxju85CFP_fmusOX5PhB98fR60iA/exec";
 
-    // १. मुख्य टिकर अपडेट फङ्ग्सन
+    // १. टिकर अपडेट
     async function updateTicker() {
         const btn = document.getElementById('tickBtn');
         const text = document.getElementById('tickerText').value;
         if(!text) return alert("कृपया टिकर टेक्स्ट लेख्नुहोस्।");
 
-        const formData = {
-            action: "updateTicker",
-            ticker: text
-        };
+        const formData = { action: "updateTicker", ticker: text };
         btn.innerText = "अपडेट हुँदैछ..."; btn.disabled = true;
         try {
             await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
             alert("मुख्य स्क्रोलिङ सूचना सफलतापूर्वक अपडेट भयो!");
             document.getElementById('tickerForm').reset();
-        } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "टिकर सूचना अपडेट गर्नुहोस"; btn.disabled = false; }
+        } catch(e) { alert("त्रुटि भयो!"); } 
+        finally { btn.innerText = "टिकर सूचना अपडेट गर्नुहोस"; btn.disabled = false; }
     }
 
-    // २. सूचना बोर्डमा नयाँ नोटिस थप्ने फङ्ग्सन
+    // २. नयाँ नोटिस थप्ने
     async function submitNotice() {
         const btn = document.getElementById('notBtn');
         const formData = {
@@ -150,17 +151,18 @@
             await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
             alert("नयाँ सूचना सफलतापूर्वक बोर्डमा पोस्ट भयो!");
             document.getElementById('noticeForm').reset();
-        } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "सूचना बोर्डमा पोस्ट गर्नुहोस"; btn.disabled = false; }
+        } catch(e) { alert("त्रुटि भयो!"); } 
+        finally { btn.innerText = "सूचना बोर्डमा पोस्ट गर्नुहोस"; btn.disabled = false; }
     }
 
-    // ३. विद्यार्थी रिजल्ट सेभ गर्ने फङ्ग्सन
+    // ३. रिजल्ट सेभ गर्ने
     async function submitResult() {
         const btn = document.getElementById('resBtn');
         const formData = {
             action: "addResult",
             symbol: document.getElementById('sym').value,
-            class: document.getElementById('class').value,
-            name: document.getElementById('name').value,
+            sClass: document.getElementById('class').value,
+            studentName: document.getElementById('name').value,
             english: document.getElementById('eng').value,
             math: document.getElementById('math').value,
             science: document.getElementById('sci').value,
@@ -168,37 +170,36 @@
             gpa: document.getElementById('gpa').value,
             result: document.getElementById('res').value
         };
-        if(!formData.symbol || !formData.class || !formData.name) return alert("सिम्बोल, कक्षा र नाम अनिवार्य छ।");
+        if(!formData.symbol || !formData.sClass || !formData.studentName) return alert("सिम्बोल, कक्षा र नाम अनिवार्य छ।");
 
         btn.innerText = "सेभ हुँदैछ..."; btn.disabled = true;
         try {
             await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
             alert("रिजल्ट सफलतापूर्वक सेभ भयो!");
             document.getElementById('resultForm').reset();
-        } catch(e) { alert("त्रुटि भयो!"); } finally { btn.innerText = "रिजल्ट सेभ गर्नुहोस्"; btn.disabled = false; }
+        } catch(e) { alert("त्रुटि भयो!"); } 
+        finally { btn.innerText = "रिजल्ट सेभ गर्नुहोस्"; btn.disabled = false; }
     }
 
-    // ४. शिक्षक विवरण थप्ने फङ्ग्सन (GET Method फिक्स गरिएको ताकि फोटो सुरक्षित सेभ होस्)
+    // ४. शिक्षक विवरण थप्ने
     async function submitTeacher() {
         const btn = document.getElementById('tBtn');
-        const name = encodeURIComponent(document.getElementById('tName').value);
-        const designation = encodeURIComponent(document.getElementById('tDes').value);
-        const photoUrl = encodeURIComponent(document.getElementById('tPhoto').value);
+        const formData = {
+            action: "addTeacher",
+            name: document.getElementById('tName').value,
+            designation: document.getElementById('tDes').value,
+            photoUrl: document.getElementById('tPhoto').value
+        };
 
-        if(!name || !designation || !photoUrl) return alert("सबै विवरण र फोटोको लिङ्क भर्नुहोस्।");
+        if(!formData.name || !formData.designation || !formData.photoUrl) return alert("सबै विवरण र फोटोको लिङ्क भर्नुहोस्।");
 
         btn.innerText = "थपिँदैछ..."; btn.disabled = true;
-        
-        // तिम्रो स्क्रिप्ट र इन्डेक्स डट एचटीएमएलसँग मिल्ने गरी URL मिलाइएको छ
-        const fullUrl = `${webAppUrl}?action=updateTeacher&name=${name}&designation=${designation}&photoUrl=${photoUrl}`;
-
         try {
-            await fetch(fullUrl);
+            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
             alert("शिक्षक विवरण सफलतापूर्वक थपियो!");
             document.getElementById('teacherForm').reset();
         } catch(e) { 
-            alert("शिक्षक थप्ने प्रक्रिया पूरा भयो! कृपया मुख्य साइटमा चेक गर्नुहोस्।");
-            document.getElementById('teacherForm').reset();
+            alert("त्रुटि भयो!"); 
         } finally { 
             btn.innerText = "शिक्षक थप्नुहोस्"; 
             btn.disabled = false; 
