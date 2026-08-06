@@ -125,7 +125,7 @@
         .gallery-item img { width: 100%; height: 210px; object-fit: cover; }
         .gallery-item .caption { padding: 16px; text-align: center; font-weight: 600; font-size: 0.95rem; color: var(--pu-blue); border-top: 1px solid #F1F5F9; }
 
-        /* --- 7. Admission Section (New) --- */
+        /* --- 7. Admission Section --- */
         .admission-container { max-width: 1250px; margin: 50px auto; padding: 0 24px; }
         .admission-wrapper { background: white; padding: 40px; border-radius: 12px; box-shadow: var(--shadow-md); border-top: 5px solid #10B981; }
         .admission-iframe { width: 100%; height: 700px; border: none; border-radius: 6px; margin-top: 20px; }
@@ -299,17 +299,15 @@
     </div>
 </div>
 
-<!-- नयाँ थपिएको: अनलाइन भर्ना फारम सेक्सन -->
-<!-- अनलाइन भर्ना फारम सेक्सन -->
 <div class="admission-container" id="admission">
     <div class="admission-wrapper">
         <h2 class="section-title" style="border-left-color: #10B981;"><i class="fas fa-file-signature"></i> अनलाइन भर्ना आवेदन फारम (Online Admission Portal)</h2>
         <p style="color: var(--text-muted); margin-bottom: 15px;">नयाँ शैक्षिक सत्रमा भर्ना हुन चाहने विद्यार्थीहरूले तलको आधिकारिक गुगल फारम पूर्ण रूपमा भरेर सबमिट गर्नुहोला।</p>
         
-        <!-- तिम्रो नयाँ गुगल फारम यहाँ इम्बेड गरिएको छ -->
         <iframe class="admission-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSd6P3SY0vK7uLvg1b9jmRab-fwS9M0MAAXfzx7kxcAgBsyJBw/viewform?embedded=true" width="100%" height="1021" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
     </div>
 </div>
+
 <div class="result-container" id="result">
     <div class="result-wrapper">
         <h2>अनलाइन मार्कसिट पोर्टल (Online Grade Sheet System)</h2>
@@ -365,7 +363,7 @@
 </footer>
 
 <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbwMIBRkV-c6tEcbBbkR36nmOIIgRwOTIZwTpHvEXfNxju85CFP_fmusOX5PhB98fR60iA/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzg4YmBqARkDwi145ztJ0q6khzN21Ngne7kCUctMhRItiPA1eJP9kOEdBTUgSCXK4Lexw/exec";
 
     function loadNoticesAndTicker() {
         const ticker = document.getElementById('tickerMarquee');
@@ -425,7 +423,7 @@
         if(!cl || !sy) return alert("कक्षा र सिम्बोल नम्बर दुवै भर्नुहोस्।");
         
         out.style.display = 'block'; 
-        out.innerHTML = "<p style='color:white; font-weight:600; font-size:1.1rem;' class='animate-pulse'>नतिजा खोज्दैछ, कृपया पर्खनुहोस्...</p>";
+        out.innerHTML = "<p style='color:white; font-weight:600; font-size:1.1rem;'>नतिजा खोज्दैछ, कृपया पर्खनुहोस्...</p>";
         
         try {
             const res = await fetch(`${webAppUrl}?action=getResult&symbol=${sy}&class=${cl}`);
