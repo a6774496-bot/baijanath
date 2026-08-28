@@ -3,208 +3,494 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | SBSS</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Admin Dashboard | श्री बैजनाथ मा.वि.</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { 
-            --primary: #1a4a8e; 
-            --accent: #d71920; 
-            --bg: #f0f2f5; 
-            --gold: #D97706;
+        :root {
+            --primary: #1a365d;
+            --secondary: #0d9488;
+            --accent: #d97706;
+            --danger: #dc2626;
+            --bg-light: #f1f5f9;
+            --text-dark: #1e293b;
+            --white: #ffffff;
         }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; margin: 0; }
-        .admin-container { max-width: 900px; margin: auto; }
-        .box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; border-top: 5px solid var(--primary); }
-        .box.notice-box { border-top-color: var(--gold); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
-        textarea { resize: vertical; min-height: 80px; grid-column: span 2; }
-        button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; }
-        button:hover { background: #133669; transform: scale(1.01); }
-        .header { text-align: center; color: var(--primary); margin-bottom: 30px; }
-        .btn-teacher { background: #28a745; }
-        .btn-teacher:hover { background: #218838; }
-        .btn-notice { background: var(--gold); }
-        .btn-notice:hover { background: #b45309; }
-        .back-btn { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; margin-bottom: 20px; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Admin Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 20px 0;
+            position: fixed;
+            height: 100%;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-brand {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .sidebar-brand h2 {
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 25px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        /* Main Content Container */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            width: calc(100% - 250px);
+        }
+
+        .header-title {
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Admin Grid & Cards Layout */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-header {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        /* Input Controls & Forms */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-submit {
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            padding: 11px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit:hover {
+            background: #0f766e;
+        }
+
+        /* Status Banner Alert */
+        .alert-box {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="admin-container">
-    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> मुख्य साइटमा जानुहोस्</a>
-    <div class="header">
-        <h1><i class="fas fa-user-shield"></i> एडमिन ड्यासबोर्ड</h1>
-        <p>श्री बैजनाथ माध्यमिक विद्यालय - डाटा व्यवस्थापन पोर्टल</p>
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <h2><i class="fas fa-user-shield"></i> Admin Panel</h2>
+            <p style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">श्री बैजनाथ मा.वि.</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#ticker-sec" class="active"><i class="fas fa-bullhorn"></i> Ticker Control</a></li>
+            <li><a href="#notice-sec"><i class="fas fa-newspaper"></i> Add Notice</a></li>
+            <li><a href="#result-sec"><i class="fas fa-file-invoice"></i> Add Student Result</a></li>
+            <li><a href="#teacher-sec"><i class="fas fa-user-plus"></i> Add Teacher Profile</a></li>
+            <li><a href="index.html" target="_blank"><i class="fas fa-globe"></i> View Website</a></li>
+        </ul>
     </div>
 
-    <!-- १. स्क्रोलिङ सूचना (Ticker) -->
-    <div class="box notice-box">
-        <h3><i class="fas fa-bullhorn"></i> मुख्य स्क्रोलिङ सूचना (Ticker) फेर्नुहोस्</h3>
-        <form id="tickerForm">
-            <div>
-                <input type="text" id="tickerText" placeholder="वेबसाइटको माथि हिँड्ने मुख्य सूचना यहाँ लेख्नुहोस्..." required>
+    <div class="main-content">
+        <div class="header-title">
+            <h1>प्रणाली व्यवस्थापन (Control Panel)</h1>
+            <span style="font-size:0.85rem; color:#64748b;">Google Sheets Connected</span>
+        </div>
+
+        <div class="admin-grid">
+
+            <div class="card" id="ticker-sec">
+                <div class="card-header"><i class="fas fa-bullhorn"></i> Ticker Text अपडेट गर्नुहोस्</div>
+                <form id="tickerForm">
+                    <div class="form-group">
+                        <label for="tickerInput">नयाँ सूचना / Notice Message:</label>
+                        <textarea id="tickerInput" placeholder="उदा: नयाँ शैक्षिक सत्र २०८३ को लागि भर्ना खुल्यो!" required></textarea>
+                    </div>
+                    <button type="submit" id="btnTicker" class="btn-submit"><i class="fas fa-sync"></i> Ticker फेर्नुहोस्</button>
+                </form>
+                <div id="msgTicker" class="alert-box alert-success"></div>
             </div>
-            <button type="button" id="tickBtn" class="btn-notice" onclick="updateTicker()">टिकर सूचना अपडेट गर्नुहोस</button>
-        </form>
-    </div>
 
-    <!-- २. सूचना बोर्ड -->
-    <div class="box notice-box">
-        <h3><i class="fas fa-clipboard-list"></i> सूचना बोर्डमा नयाँ नोटिस थप्नुहोस् (Notice Board)</h3>
-        <form id="noticeForm">
-            <div class="grid">
-                <input type="text" id="nMonth" placeholder="महिना अंग्रेजीमा (उदा: JUN, MAY)" required>
-                <input type="number" id="nDay" placeholder="गते वा दिन (उदा: 11, 28)" required>
-                <input type="text" id="nTitle" style="grid-column: span 2;" placeholder="सूचनाको मुख्य शीर्षक" required>
-                <textarea id="nContent" placeholder="सूचनाको विस्तृत विवरण यहाँ लेख्नुहोस्..."></textarea>
+            <div class="card" id="notice-sec">
+                <div class="card-header"><i class="fas fa-plus-circle"></i> नयाँ सूचना प्रकाशित गर्नुहोस्</div>
+                <form id="noticeForm">
+                    <div style="display: flex; gap: 10px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>Month (महिना):</label>
+                            <input type="text" id="nMonth" placeholder="AUG / BHA" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Day (गते/दिन):</label>
+                            <input type="text" id="nDay" placeholder="28 / १५" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>शीर्षक (Notice Title):</label>
+                        <input type="text" id="nTitle" placeholder="उदा: भर्ना आवेदन सम्बन्धी सूचना" required>
+                    </div>
+                    <div class="form-group">
+                        <label>विवरण (Notice Details):</label>
+                        <textarea id="nContent" placeholder="सूचनाको विस्तृत विवरण..." required></textarea>
+                    </div>
+                    <button type="submit" id="btnNotice" class="btn-submit"><i class="fas fa-paper-plane"></i> सूचना सेभ गर्नुहोस्</button>
+                </form>
+                <div id="msgNotice" class="alert-box alert-success"></div>
             </div>
-            <button type="button" id="notBtn" class="btn-notice" onclick="submitNotice()">सूचना बोर्डमा पोस्ट गर्नुहोस</button>
-        </form>
-    </div>
 
-    <!-- ३. विद्यार्थीको रिजल्ट -->
-    <div class="box">
-        <h3><i class="fas fa-file-invoice"></i> विद्यार्थीको रिजल्ट हाल्नुहोस्</h3>
-        <form id="resultForm">
-            <div class="grid">
-                <input type="text" id="sym" placeholder="सिम्बोल नम्बर (उदा: 101)" required>
-                
-                <select id="class" required style="margin-top:5px;">
-                    <option value="">कक्षा छान्नुहोस्</option>
-                    <option value="Nursery">Nursery</option>
-                    <option value="LKG">LKG</option>
-                    <option value="UKG">UKG</option>
-                    <option value="1">Class 1</option>
-                    <option value="2">Class 2</option>
-                    <option value="3">Class 3</option>
-                    <option value="4">Class 4</option>
-                    <option value="5">Class 5</option>
-                    <option value="6">Class 6</option>
-                    <option value="7">Class 7</option>
-                    <option value="8">Class 8</option>
-                    <option value="9">Class 9</option>
-                    <option value="10">Class 10</option>
-                    <option value="11">Class 11</option>
-                    <option value="12">Class 12</option>
-                </select>
-
-                <input type="text" id="name" style="grid-column: span 2;" placeholder="विद्यार्थीको पूरा नाम" required>
-                <input type="text" id="eng" placeholder="English (Grade/Marks)">
-                <input type="text" id="math" placeholder="Math (Grade/Marks)">
-                <input type="text" id="sci" placeholder="Science (Grade/Marks)">
-                <input type="text" id="nep" placeholder="Nepali (Grade/Marks)">
-                <input type="text" id="gpa" placeholder="GPA / Percentage (उदा: 3.6 वा 85%)" required>
-                <input type="text" id="res" placeholder="Result (Passed/Failed)" required>
+            <div class="card" id="result-sec">
+                <div class="card-header"><i class="fas fa-poll-h"></i> परीक्षाको नतिजा प्रविष्टि (Add Result)</div>
+                <form id="resultForm">
+                    <div style="display: flex; gap: 10px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>Symbol No:</label>
+                            <input type="text" id="rSymbol" placeholder="1001" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Class:</label>
+                            <select id="rClass" required>
+                                <option value="11">Class 11</option>
+                                <option value="12">Class 12</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>विद्यार्थीको नाम (Full Name):</label>
+                        <input type="text" id="rName" placeholder="Ayush Pant" required>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="form-group">
+                            <label>English Grade:</label>
+                            <input type="text" id="rEng" placeholder="A+" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Math Grade:</label>
+                            <input type="text" id="rMath" placeholder="A" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Science Grade:</label>
+                            <input type="text" id="rSci" placeholder="B+" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nepali Grade:</label>
+                            <input type="text" id="rNep" placeholder="A" required>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>GPA:</label>
+                            <input type="text" id="rGpa" placeholder="3.6" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Result Status:</label>
+                            <input type="text" id="rStatus" placeholder="Passed" required>
+                        </div>
+                    </div>
+                    <button type="submit" id="btnResult" class="btn-submit"><i class="fas fa-save"></i> नतिजा सेभ गर्नुहोस्</button>
+                </form>
+                <div id="msgResult" class="alert-box alert-success"></div>
             </div>
-            <button type="button" id="resBtn" onclick="submitResult()">रिजल्ट सेभ गर्नुहोस्</button>
-        </form>
-    </div>
 
-    <!-- ४. शिक्षक विवरण -->
-    <div class="box">
-        <h3><i class="fas fa-user-tie"></i> नयाँ शिक्षक विवरण थप्नुहोस्</h3>
-        <form id="teacherForm">
-            <div class="grid">
-                <input type="text" id="tName" placeholder="शिक्षकको नाम" required>
-                <input type="text" id="tDes" placeholder="पद (उदा: सहायक प्रधानाध्यापक)" required>
-                <input type="text" id="tPhoto" style="grid-column: span 2;" placeholder="फोटोको 'Direct Link' (उदा: https://i.ibb.co/...jpg)" required>
+            <div class="card" id="teacher-sec">
+                <div class="card-header"><i class="fas fa-user-tie"></i> नयाँ शिक्षक थप्नुहोस् (Add Teacher)</div>
+                <form id="teacherForm">
+                    <div class="form-group">
+                        <label>शिक्षकको नाम (Teacher Name):</label>
+                        <input type="text" id="tName" placeholder="Nav Raj Pant" required>
+                    </div>
+                    <div class="form-group">
+                        <label>पद (Designation):</label>
+                        <input type="text" id="tDesig" placeholder="Principal / Computer Teacher" required>
+                    </div>
+                    <div class="form-group">
+                        <label>फोटो लिङ्क (Photo URL):</label>
+                        <input type="url" id="tPhoto" placeholder="https://i.ibb.co/... or p1.jpg" required>
+                    </div>
+                    <button type="submit" id="btnTeacher" class="btn-submit"><i class="fas fa-user-plus"></i> शिक्षक प्रोफाइल थप्नुहोस्</button>
+                </form>
+                <div id="msgTeacher" class="alert-box alert-success"></div>
             </div>
-            <button type="button" id="tBtn" class="btn-teacher" onclick="submitTeacher()">शिक्षक थप्नुहोस्</button>
-        </form>
+
+        </div>
     </div>
-</div>
 
-<script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbzg4YmBqARkDwi145ztJ0q6khzN21Ngne7kCUctMhRItiPA1eJP9kOEdBTUgSCXK4Lexw/exec";
+    <script>
+        // 🚀 नयाँ Apps Script Web App URL:
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbxTEnOc4m0du6udZO93AA05zXSA3_stJQP0utkS6lj9ABuU_snwFuxg1Q_QIVbohXjGxQ/exec";
 
-    // १. टिकर अपडेट
-    async function updateTicker() {
-        const btn = document.getElementById('tickBtn');
-        const text = document.getElementById('tickerText').value;
-        if(!text) return alert("कृपया टिकर टेक्स्ट लेख्नुहोस्।");
-
-        const formData = { action: "updateTicker", ticker: text };
-        btn.innerText = "अपडेट हुँदैछ..."; btn.disabled = true;
-        try {
-            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
-            alert("मुख्य स्क्रोलिङ सूचना सफलतापूर्वक अपडेट भयो!");
-            document.getElementById('tickerForm').reset();
-        } catch(e) { alert("त्रुटि भयो!"); } 
-        finally { btn.innerText = "टिकर सूचना अपडेट गर्नुहोस"; btn.disabled = false; }
-    }
-
-    // २. नयाँ नोटिस थप्ने
-    async function submitNotice() {
-        const btn = document.getElementById('notBtn');
-        const formData = {
-            action: "addNotice",
-            month: document.getElementById('nMonth').value,
-            day: document.getElementById('nDay').value,
-            title: document.getElementById('nTitle').value,
-            content: document.getElementById('nContent').value
-        };
-        if(!formData.month || !formData.day || !formData.title) return alert("महिना, गते र शीर्षक अनिवार्य भर्नुहोस्।");
-
-        btn.innerText = "पोस्ट हुँदैछ..."; btn.disabled = true;
-        try {
-            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
-            alert("नयाँ सूचना सफलतापूर्वक बोर्डमा पोस्ट भयो!");
-            document.getElementById('noticeForm').reset();
-        } catch(e) { alert("त्रुटि भयो!"); } 
-        finally { btn.innerText = "सूचना बोर्डमा पोस्ट गर्नुहोस"; btn.disabled = false; }
-    }
-
-    // ३. रिजल्ट सेभ गर्ने
-    async function submitResult() {
-        const btn = document.getElementById('resBtn');
-        const formData = {
-            action: "addResult",
-            symbol: document.getElementById('sym').value,
-            sClass: document.getElementById('class').value,
-            studentName: document.getElementById('name').value,
-            english: document.getElementById('eng').value,
-            math: document.getElementById('math').value,
-            science: document.getElementById('sci').value,
-            nepali: document.getElementById('nep').value,
-            gpa: document.getElementById('gpa').value,
-            result: document.getElementById('res').value
-        };
-        if(!formData.symbol || !formData.sClass || !formData.studentName) return alert("सिम्बोल, कक्षा र नाम अनिवार्य छ।");
-
-        btn.innerText = "सेभ हुँदैछ..."; btn.disabled = true;
-        try {
-            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
-            alert("रिजल्ट सफलतापूर्वक सेभ भयो!");
-            document.getElementById('resultForm').reset();
-        } catch(e) { alert("त्रुटि भयो!"); } 
-        finally { btn.innerText = "रिजल्ट सेभ गर्नुहोस्"; btn.disabled = false; }
-    }
-
-    // ४. शिक्षक विवरण थप्ने
-    async function submitTeacher() {
-        const btn = document.getElementById('tBtn');
-        const formData = {
-            action: "addTeacher",
-            name: document.getElementById('tName').value,
-            designation: document.getElementById('tDes').value,
-            photoUrl: document.getElementById('tPhoto').value
-        };
-
-        if(!formData.name || !formData.designation || !formData.photoUrl) return alert("सबै विवरण र फोटोको लिङ्क भर्नुहोस्।");
-
-        btn.innerText = "थपिँदैछ..."; btn.disabled = true;
-        try {
-            await fetch(webAppUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
-            alert("शिक्षक विवरण सफलतापूर्वक थपियो!");
-            document.getElementById('teacherForm').reset();
-        } catch(e) { 
-            alert("त्रुटि भयो!"); 
-        } finally { 
-            btn.innerText = "शिक्षक थप्नुहोस्"; 
-            btn.disabled = false; 
+        // Helper function for display status messages
+        function showMsg(elementId, text, isSuccess = true) {
+            const el = document.getElementById(elementId);
+            el.style.display = 'block';
+            el.className = `alert-box ${isSuccess ? 'alert-success' : 'alert-error'}`;
+            el.innerHTML = isSuccess ? `✔ ${text}` : `✖ ${text}`;
+            setTimeout(() => { el.style.display = 'none'; }, 4000);
         }
-    }
-</script>
+
+        // 1. Ticker Form Handler
+        document.getElementById('tickerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnTicker');
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> फेर्दैछ...";
+
+            try {
+                const res = await fetch(webAppUrl, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "updateTicker",
+                        ticker: document.getElementById('tickerInput').value
+                    })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    showMsg('msgTicker', "Ticker Text सफलतापूर्वक फेरियो!");
+                    document.getElementById('tickerForm').reset();
+                }
+            } catch (err) {
+                showMsg('msgTicker', "त्रुटि भयो! डाटा सेभ भएन।", false);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "<i class='fas fa-sync'></i> Ticker फेर्नुहोस्";
+            }
+        });
+
+        // 2. Notice Form Handler
+        document.getElementById('noticeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnNotice');
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> सेभ हुँदैछ...";
+
+            const payload = {
+                action: "addNotice",
+                month: document.getElementById('nMonth').value,
+                day: document.getElementById('nDay').value,
+                title: document.getElementById('nTitle').value,
+                content: document.getElementById('nContent').value
+            };
+
+            try {
+                const res = await fetch(webAppUrl, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    showMsg('msgNotice', "सूचना सफलतापूर्वक थपियो!");
+                    document.getElementById('noticeForm').reset();
+                }
+            } catch (err) {
+                showMsg('msgNotice', "त्रुटि भयो! डाटा सेभ भएन।", false);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "<i class='fas fa-paper-plane'></i> सूचना सेभ गर्नुहोस्";
+            }
+        });
+
+        // 3. Result Form Handler
+        document.getElementById('resultForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnResult');
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> सेभ हुँदैछ...";
+
+            const payload = {
+                action: "addResult",
+                symbol: document.getElementById('rSymbol').value,
+                sClass: document.getElementById('rClass').value,
+                studentName: document.getElementById('rName').value,
+                english: document.getElementById('rEng').value,
+                math: document.getElementById('rMath').value,
+                science: document.getElementById('rSci').value,
+                nepali: document.getElementById('rNep').value,
+                gpa: document.getElementById('rGpa').value,
+                result: document.getElementById('rStatus').value
+            };
+
+            try {
+                const res = await fetch(webAppUrl, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    showMsg('msgResult', "नतिजा सफलतापुर्वक अपलोड भयो!");
+                    document.getElementById('resultForm').reset();
+                }
+            } catch (err) {
+                showMsg('msgResult', "त्रुटि भयो! डाटा सेभ भएन।", false);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "<i class='fas fa-save'></i> नतिजा सेभ गर्नुहोस्";
+            }
+        });
+
+        // 4. Teacher Form Handler
+        document.getElementById('teacherForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnTeacher');
+            btn.disabled = true;
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> सेभ हुँदैछ...";
+
+            const payload = {
+                action: "addTeacher",
+                name: document.getElementById('tName').value,
+                designation: document.getElementById('tDesig').value,
+                photoUrl: document.getElementById('tPhoto').value
+            };
+
+            try {
+                const res = await fetch(webAppUrl, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    showMsg('msgTeacher', "शिक्षक प्रोफाइल सफलतापुर्वक थपियो!");
+                    document.getElementById('teacherForm').reset();
+                }
+            } catch (err) {
+                showMsg('msgTeacher', "त्रुटि भयो! डाटा सेभ भएन।", false);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "<i class='fas fa-user-plus'></i> शिक्षक प्रोफाइल थप्नुहोस्";
+            }
+        });
+    </script>
 </body>
 </html>
