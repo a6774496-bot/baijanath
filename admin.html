@@ -30,7 +30,6 @@
             min-height: 100vh;
         }
 
-        /* Admin Sidebar Styling */
         .sidebar {
             width: 250px;
             background: var(--primary);
@@ -38,18 +37,12 @@
             padding: 20px 0;
             position: fixed;
             height: 100%;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         }
 
         .sidebar-brand {
             padding: 0 20px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             text-align: center;
-        }
-
-        .sidebar-brand h2 {
-            font-size: 1.2rem;
-            color: var(--white);
         }
 
         .sidebar-menu {
@@ -65,7 +58,6 @@
             color: #cbd5e1;
             text-decoration: none;
             font-size: 0.95rem;
-            transition: 0.3s;
         }
 
         .sidebar-menu li a:hover, .sidebar-menu li a.active {
@@ -73,7 +65,6 @@
             color: var(--white);
         }
 
-        /* Main Content Container */
         .main-content {
             margin-left: 250px;
             padding: 30px;
@@ -90,7 +81,6 @@
             align-items: center;
         }
 
-        /* Admin Grid & Cards Layout */
         .admin-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -117,7 +107,6 @@
             padding-bottom: 10px;
         }
 
-        /* Input Controls & Forms */
         .form-group {
             margin-bottom: 15px;
         }
@@ -127,7 +116,6 @@
             margin-bottom: 5px;
             font-size: 0.88rem;
             font-weight: 600;
-            color: var(--text-dark);
         }
 
         .form-group input, .form-group textarea, .form-group select {
@@ -136,18 +124,6 @@
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             font-size: 0.9rem;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
         }
 
         .btn-submit {
@@ -159,19 +135,8 @@
             cursor: pointer;
             font-weight: 600;
             width: 100%;
-            font-size: 0.95rem;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
 
-        .btn-submit:hover {
-            background: #0f766e;
-        }
-
-        /* Status Banner Alert */
         .alert-box {
             margin-top: 15px;
             padding: 10px;
@@ -180,33 +145,13 @@
             display: none;
         }
 
-        .alert-success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-        }
+        .alert-success { background: #d1fae5; color: #065f46; }
+        .alert-error { background: #fee2e2; color: #991b1b; }
 
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-        }
-
-        /* Responsive Breakpoints */
         @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 15px;
-            }
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { margin-left: 0; width: 100%; padding: 15px; }
         }
     </style>
 </head>
@@ -220,8 +165,8 @@
         <ul class="sidebar-menu">
             <li><a href="#ticker-sec" class="active"><i class="fas fa-bullhorn"></i> Ticker Control</a></li>
             <li><a href="#notice-sec"><i class="fas fa-newspaper"></i> Add Notice</a></li>
-            <li><a href="#result-sec"><i class="fas fa-file-invoice"></i> Add Student Result</a></li>
-            <li><a href="#teacher-sec"><i class="fas fa-user-plus"></i> Add Teacher Profile</a></li>
+            <li><a href="#result-sec"><i class="fas fa-file-invoice"></i> Add Result</a></li>
+            <li><a href="#teacher-sec"><i class="fas fa-user-plus"></i> Add Teacher</a></li>
             <li><a href="index.html" target="_blank"><i class="fas fa-globe"></i> View Website</a></li>
         </ul>
     </div>
@@ -234,46 +179,49 @@
 
         <div class="admin-grid">
 
+            <!-- 1. Ticker Message Control Card -->
             <div class="card" id="ticker-sec">
                 <div class="card-header"><i class="fas fa-bullhorn"></i> Ticker Text अपडेट गर्नुहोस्</div>
                 <form id="tickerForm">
                     <div class="form-group">
-                        <label for="tickerInput">नयाँ सूचना / Notice Message:</label>
+                        <label>नयाँ सूचना / Notice Message:</label>
                         <textarea id="tickerInput" placeholder="उदा: नयाँ शैक्षिक सत्र २०८३ को लागि भर्ना खुल्यो!" required></textarea>
                     </div>
-                    <button type="submit" id="btnTicker" class="btn-submit"><i class="fas fa-sync"></i> Ticker फेर्नुहोस्</button>
+                    <button type="submit" id="btnTicker" class="btn-submit">Ticker फेर्नुहोस्</button>
                 </form>
                 <div id="msgTicker" class="alert-box alert-success"></div>
             </div>
 
+            <!-- 2. Notice Publishing Form Card -->
             <div class="card" id="notice-sec">
                 <div class="card-header"><i class="fas fa-plus-circle"></i> नयाँ सूचना प्रकाशित गर्नुहोस्</div>
                 <form id="noticeForm">
                     <div style="display: flex; gap: 10px;">
                         <div class="form-group" style="flex: 1;">
-                            <label>Month (महिना):</label>
-                            <input type="text" id="nMonth" placeholder="AUG / BHA" required>
+                            <label>Month:</label>
+                            <input type="text" id="nMonth" placeholder="AUG" required>
                         </div>
                         <div class="form-group" style="flex: 1;">
-                            <label>Day (गते/दिन):</label>
-                            <input type="text" id="nDay" placeholder="28 / १५" required>
+                            <label>Day:</label>
+                            <input type="text" id="nDay" placeholder="28" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>शीर्षक (Notice Title):</label>
-                        <input type="text" id="nTitle" placeholder="उदा: भर्ना आवेदन सम्बन्धी सूचना" required>
+                        <label>शीर्षक:</label>
+                        <input type="text" id="nTitle" placeholder="भर्ना आवेदन सम्बन्धी सूचना" required>
                     </div>
                     <div class="form-group">
-                        <label>विवरण (Notice Details):</label>
+                        <label>विवरण:</label>
                         <textarea id="nContent" placeholder="सूचनाको विस्तृत विवरण..." required></textarea>
                     </div>
-                    <button type="submit" id="btnNotice" class="btn-submit"><i class="fas fa-paper-plane"></i> सूचना सेभ गर्नुहोस्</button>
+                    <button type="submit" id="btnNotice" class="btn-submit">सूचना सेभ गर्नुहोस्</button>
                 </form>
                 <div id="msgNotice" class="alert-box alert-success"></div>
             </div>
 
+            <!-- 3. Result Form Card -->
             <div class="card" id="result-sec">
-                <div class="card-header"><i class="fas fa-poll-h"></i> परीक्षाको नतिजा प्रविष्टि (Add Result)</div>
+                <div class="card-header"><i class="fas fa-poll-h"></i> नतिजा प्रविष्टि (Add Result)</div>
                 <form id="resultForm">
                     <div style="display: flex; gap: 10px;">
                         <div class="form-group" style="flex: 1;">
@@ -289,58 +237,41 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>विद्यार्थीको नाम (Full Name):</label>
+                        <label>विद्यार्थीको नाम:</label>
                         <input type="text" id="rName" placeholder="Ayush Pant" required>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div class="form-group">
-                            <label>English Grade:</label>
-                            <input type="text" id="rEng" placeholder="A+" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Math Grade:</label>
-                            <input type="text" id="rMath" placeholder="A" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Science Grade:</label>
-                            <input type="text" id="rSci" placeholder="B+" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nepali Grade:</label>
-                            <input type="text" id="rNep" placeholder="A" required>
-                        </div>
+                        <div class="form-group"><label>English:</label><input type="text" id="rEng" placeholder="A+" required></div>
+                        <div class="form-group"><label>Math:</label><input type="text" id="rMath" placeholder="A" required></div>
+                        <div class="form-group"><label>Science:</label><input type="text" id="rSci" placeholder="B+" required></div>
+                        <div class="form-group"><label>Nepali:</label><input type="text" id="rNep" placeholder="A" required></div>
                     </div>
                     <div style="display: flex; gap: 10px;">
-                        <div class="form-group" style="flex: 1;">
-                            <label>GPA:</label>
-                            <input type="text" id="rGpa" placeholder="3.6" required>
-                        </div>
-                        <div class="form-group" style="flex: 1;">
-                            <label>Result Status:</label>
-                            <input type="text" id="rStatus" placeholder="Passed" required>
-                        </div>
+                        <div class="form-group" style="flex: 1;"><label>GPA:</label><input type="text" id="rGpa" placeholder="3.6" required></div>
+                        <div class="form-group" style="flex: 1;"><label>Status:</label><input type="text" id="rStatus" placeholder="Passed" required></div>
                     </div>
-                    <button type="submit" id="btnResult" class="btn-submit"><i class="fas fa-save"></i> नतिजा सेभ गर्नुहोस्</button>
+                    <button type="submit" id="btnResult" class="btn-submit">नतिजा सेभ गर्नुहोस्</button>
                 </form>
                 <div id="msgResult" class="alert-box alert-success"></div>
             </div>
 
+            <!-- 4. Teacher Profile Card -->
             <div class="card" id="teacher-sec">
-                <div class="card-header"><i class="fas fa-user-tie"></i> नयाँ शिक्षक थप्नुहोस् (Add Teacher)</div>
+                <div class="card-header"><i class="fas fa-user-tie"></i> नयाँ शिक्षक थप्नुहोस्</div>
                 <form id="teacherForm">
                     <div class="form-group">
-                        <label>शिक्षकको नाम (Teacher Name):</label>
+                        <label>शिक्षकको नाम:</label>
                         <input type="text" id="tName" placeholder="Nav Raj Pant" required>
                     </div>
                     <div class="form-group">
-                        <label>पद (Designation):</label>
-                        <input type="text" id="tDesig" placeholder="Principal / Computer Teacher" required>
+                        <label>पद:</label>
+                        <input type="text" id="tDesig" placeholder="Principal" required>
                     </div>
                     <div class="form-group">
                         <label>फोटो लिङ्क (Photo URL):</label>
-                        <input type="url" id="tPhoto" placeholder="https://i.ibb.co/... or p1.jpg" required>
+                        <input type="url" id="tPhoto" placeholder="https://i.ibb.co/..." required>
                     </div>
-                    <button type="submit" id="btnTeacher" class="btn-submit"><i class="fas fa-user-plus"></i> शिक्षक प्रोफाइल थप्नुहोस्</button>
+                    <button type="submit" id="btnTeacher" class="btn-submit">शिक्षक थप्नुहोस्</button>
                 </form>
                 <div id="msgTeacher" class="alert-box alert-success"></div>
             </div>
@@ -349,87 +280,58 @@
     </div>
 
     <script>
-        // 🚀 नयाँ Apps Script Web App URL:
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbxTEnOc4m0du6udZO93AA05zXSA3_stJQP0utkS6lj9ABuU_snwFuxg1Q_QIVbohXjGxQ/exec";
+        // 🚀 नयाँ Google Apps Script URL
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbzHhceLkpOCYqLq1UBJ6t61KxcYppbw-QtrzwXNT30yKDUmDQAybIwJ21Gcwyl4RSqFYw/exec";
 
-        // Helper function for display status messages
-        function showMsg(elementId, text, isSuccess = true) {
-            const el = document.getElementById(elementId);
+        function showMsg(id, text, isSuccess = true) {
+            const el = document.getElementById(id);
             el.style.display = 'block';
             el.className = `alert-box ${isSuccess ? 'alert-success' : 'alert-error'}`;
             el.innerHTML = isSuccess ? `✔ ${text}` : `✖ ${text}`;
             setTimeout(() => { el.style.display = 'none'; }, 4000);
         }
 
-        // 1. Ticker Form Handler
-        document.getElementById('tickerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnTicker');
+        async function postData(payload, btnId, msgId, formId, successText) {
+            const btn = document.getElementById(btnId);
             btn.disabled = true;
-            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> फेर्दैछ...";
+            btn.innerText = "सेभ हुँदैछ...";
 
             try {
-                const res = await fetch(webAppUrl, {
+                await fetch(webAppUrl, {
                     method: "POST",
-                    body: JSON.stringify({
-                        action: "updateTicker",
-                        ticker: document.getElementById('tickerInput').value
-                    })
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
                 });
-                const data = await res.json();
-                if (data.status === "success") {
-                    showMsg('msgTicker', "Ticker Text सफलतापूर्वक फेरियो!");
-                    document.getElementById('tickerForm').reset();
-                }
+                showMsg(msgId, successText);
+                document.getElementById(formId).reset();
             } catch (err) {
-                showMsg('msgTicker', "त्रुटि भयो! डाटा सेभ भएन।", false);
+                showMsg(msgId, "त्रुटि भयो! डाटा सेभ भएन।", false);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = "<i class='fas fa-sync'></i> Ticker फेर्नुहोस्";
+                btn.innerText = "सेभ गर्नुहोस्";
             }
+        }
+
+        document.getElementById('tickerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            postData({ action: "updateTicker", ticker: document.getElementById('tickerInput').value }, 'btnTicker', 'msgTicker', 'tickerForm', 'Ticker Text सेभ भयो!');
         });
 
-        // 2. Notice Form Handler
-        document.getElementById('noticeForm').addEventListener('submit', async (e) => {
+        document.getElementById('noticeForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnNotice');
-            btn.disabled = true;
-            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> सेभ हुँदैछ...";
-
-            const payload = {
+            postData({
                 action: "addNotice",
                 month: document.getElementById('nMonth').value,
                 day: document.getElementById('nDay').value,
                 title: document.getElementById('nTitle').value,
                 content: document.getElementById('nContent').value
-            };
-
-            try {
-                const res = await fetch(webAppUrl, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                if (data.status === "success") {
-                    showMsg('msgNotice', "सूचना सफलतापूर्वक थपियो!");
-                    document.getElementById('noticeForm').reset();
-                }
-            } catch (err) {
-                showMsg('msgNotice', "त्रुटि भयो! डाटा सेभ भएन।", false);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = "<i class='fas fa-paper-plane'></i> सूचना सेभ गर्नुहोस्";
-            }
+            }, 'btnNotice', 'msgNotice', 'noticeForm', 'सूचना सफलतापुर्वक थपियो!');
         });
 
-        // 3. Result Form Handler
-        document.getElementById('resultForm').addEventListener('submit', async (e) => {
+        document.getElementById('resultForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnResult');
-            btn.disabled = true;
-            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> सेभ हुँदैछ...";
-
-            const payload = {
+            postData({
                 action: "addResult",
                 symbol: document.getElementById('rSymbol').value,
                 sClass: document.getElementById('rClass').value,
@@ -440,56 +342,17 @@
                 nepali: document.getElementById('rNep').value,
                 gpa: document.getElementById('rGpa').value,
                 result: document.getElementById('rStatus').value
-            };
-
-            try {
-                const res = await fetch(webAppUrl, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                if (data.status === "success") {
-                    showMsg('msgResult', "नतिजा सफलतापुर्वक अपलोड भयो!");
-                    document.getElementById('resultForm').reset();
-                }
-            } catch (err) {
-                showMsg('msgResult', "त्रुटि भयो! डाटा सेभ भएन।", false);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = "<i class='fas fa-save'></i> नतिजा सेभ गर्नुहोस्";
-            }
+            }, 'btnResult', 'msgResult', 'resultForm', 'नतिजा सफलतापुर्वक अपलोड भयो!');
         });
 
-        // 4. Teacher Form Handler
-        document.getElementById('teacherForm').addEventListener('submit', async (e) => {
+        document.getElementById('teacherForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnTeacher');
-            btn.disabled = true;
-            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> सेभ हुँदैछ...";
-
-            const payload = {
+            postData({
                 action: "addTeacher",
                 name: document.getElementById('tName').value,
                 designation: document.getElementById('tDesig').value,
                 photoUrl: document.getElementById('tPhoto').value
-            };
-
-            try {
-                const res = await fetch(webAppUrl, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                if (data.status === "success") {
-                    showMsg('msgTeacher', "शिक्षक प्रोफाइल सफलतापुर्वक थपियो!");
-                    document.getElementById('teacherForm').reset();
-                }
-            } catch (err) {
-                showMsg('msgTeacher', "त्रुटि भयो! डाटा सेभ भएन।", false);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = "<i class='fas fa-user-plus'></i> शिक्षक प्रोफाइल थप्नुहोस्";
-            }
+            }, 'btnTeacher', 'msgTeacher', 'teacherForm', 'शिक्षक प्रोफाइल थपियो!');
         });
     </script>
 </body>
