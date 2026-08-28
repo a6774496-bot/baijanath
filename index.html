@@ -368,12 +368,12 @@
 
     <!-- Main JavaScript Script Integration -->
     <script>
-        // 🚀 नयाँ Google Apps Script URL
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbzHhceLkpOCYqLq1UBJ6t61KxcYppbw-QtrzwXNT30yKDUmDQAybIwJ21Gcwyl4RSqFYw/exec";
+        // 🚀 नयाँ Google Apps Script Web App URL
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbyCvN8g4ArR9y3EeNmB4-qLQGmUu5vKgqjq4CDHP0B70bXUoYpY30INeE3j3Y1vhxJ8kg/exec";
         
         let globalResults = [];
 
-        // Data Fetch Function from Google Sheets
+        // Fetch School Data
         async function fetchSchoolData() {
             try {
                 const res = await fetch(webAppUrl);
@@ -417,7 +417,7 @@
                     teacherContainer.innerHTML = "<p>शिक्षक विवरण थपिएको छैन।</p>";
                 }
 
-                // Save results array globally for search
+                // Save results globally
                 globalResults = data.results || [];
 
             } catch(err) {
@@ -426,7 +426,7 @@
             }
         }
 
-        // Result Search Submit Handler
+        // Search Result Event Listener
         document.getElementById('resultSearchForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const symbol = document.getElementById('searchSymbol').value.trim();
@@ -451,7 +451,7 @@
             }
         });
 
-        // Online Admission Submit Handler (Fixes Network Error)
+        // Online Admission Submit Handler
         document.getElementById('admissionForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnAdm');
@@ -474,7 +474,7 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-                msg.innerHTML = "<p style='color:green; font-weight:bold;'>✔ फारम सफलतापूर्वक सेभ भयो!</p>";
+                msg.innerHTML = "<p style='color:green; font-weight:bold;'>✔ तपाईँको भर्ना फारम सफलतापुर्वक सेभ भयो!</p>";
                 document.getElementById('admissionForm').reset();
             } catch (err) {
                 msg.innerHTML = "<p style='color:red;'>त्रुटि भयो! डाटा पठाउन सकिएन।</p>";
@@ -484,7 +484,6 @@
             }
         });
 
-        // Initialize Data Load
         window.onload = fetchSchoolData;
     </script>
 </body>
