@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>श्री बैजनाथ माध्यमिक विद्यालय | Shree Baijanath Secondary School</title>
+    <title>श्री बैजनाथ माध्यमिक विद्यालय</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -28,186 +28,174 @@
             line-height: 1.6;
         }
 
-        /* Ticker Bar */
-        .ticker-wrapper {
+        /* Ticker Header */
+        .ticker-container {
             background: var(--primary);
             color: var(--white);
             display: flex;
             align-items: center;
-            padding: 8px 15px;
-            font-size: 0.9rem;
-            border-bottom: 2px solid var(--accent);
+            overflow: hidden;
+            height: 40px;
         }
 
         .ticker-title {
             background: var(--accent);
-            padding: 3px 10px;
-            border-radius: 4px;
+            padding: 0 15px;
+            height: 100%;
+            display: flex;
+            align-items: center;
             font-weight: bold;
+            font-size: 0.9rem;
             white-space: nowrap;
-            margin-right: 15px;
+            z-index: 2;
         }
 
-        /* Top Header */
-        .top-header {
+        .ticker-text {
+            white-space: nowrap;
+            animation: ticker 25s linear infinite;
+            padding-left: 100%;
+            font-size: 0.95rem;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* Header & Nav */
+        header {
             background: var(--white);
-            padding: 15px 5%;
+            padding: 20px 5%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-section img {
-            width: 75px;
-            height: 75px;
-        }
-
-        .school-info h1 {
+        .logo-area h1 {
             color: var(--primary);
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.8rem;
         }
 
-        .school-info p {
+        .logo-area p {
             color: #64748b;
             font-size: 0.85rem;
         }
 
-        /* Navigation */
-        .nav-bar {
+        nav {
             background: var(--primary);
+            padding: 0 5%;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
 
-        .nav-links {
-            display: flex;
+        nav ul {
             list-style: none;
-            padding: 0 5%;
+            display: flex;
+            gap: 10px;
         }
 
-        .nav-links li a {
+        nav ul li a {
             color: var(--white);
             text-decoration: none;
             padding: 12px 18px;
-            display: block;
+            display: inline-block;
             font-size: 0.95rem;
             transition: 0.3s;
         }
 
-        .nav-links li a:hover, .nav-links li a.active {
+        nav ul li a:hover, nav ul li a.active {
             background: var(--secondary);
         }
 
-        /* Hero Carousel Section */
-        .hero-slider {
-            width: 100%;
-            height: 380px;
-            background: #cbd5e1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(rgba(26, 54, 93, 0.8), rgba(13, 148, 136, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80');
             background-size: cover;
             background-position: center;
-        }
-
-        .slide.active {
-            opacity: 1;
-        }
-
-        .slide-overlay {
-            background: rgba(0,0,0,0.4);
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             color: var(--white);
             text-align: center;
-            padding: 20px;
+            padding: 80px 20px;
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
         }
 
         /* Main Container Layout */
-        .main-container {
+        .container {
             max-width: 1200px;
-            margin: 25px auto;
-            padding: 0 15px;
+            margin: 30px auto;
+            padding: 0 20px;
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 25px;
+            gap: 30px;
         }
 
         .section-card {
             background: var(--white);
+            padding: 25px;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
         }
 
         .section-title {
             color: var(--primary);
             border-bottom: 2px solid var(--secondary);
             padding-bottom: 8px;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        /* Grid Cards */
-        .notice-grid {
-            display: grid;
-            gap: 15px;
+        /* Notice Board */
+        .notice-list {
+            list-style: none;
         }
 
         .notice-item {
+            padding: 12px 0;
+            border-bottom: 1px dashed #e2e8f0;
             display: flex;
             gap: 15px;
-            padding: 12px;
-            border-left: 4px solid var(--secondary);
-            background: #f1f5f9;
-            border-radius: 0 6px 6px 0;
         }
 
         .notice-date {
-            background: var(--primary);
-            color: var(--white);
+            background: var(--bg-light);
             padding: 8px;
-            border-radius: 4px;
+            border-radius: 6px;
             text-align: center;
             min-width: 60px;
         }
 
+        .notice-date .day {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .notice-date .month {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Teacher Grid */
         .teacher-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
         }
 
         .teacher-card {
-            background: var(--white);
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
             text-align: center;
-            padding: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
         }
 
         .teacher-card img {
@@ -215,337 +203,261 @@
             height: 90px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 8px;
-            border: 2px solid var(--secondary);
+            margin-bottom: 10px;
         }
 
-        /* Forms Styling */
-        .form-group {
+        /* Result Check Form */
+        .result-box select, .result-box input {
+            width: 100%;
+            padding: 10px;
             margin-bottom: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+        }
+
+        .btn-search {
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Admission Form */
+        .form-group {
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             font-weight: 600;
-            font-size: 0.9rem;
         }
 
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
-            padding: 9px;
+            padding: 10px;
             border: 1px solid #cbd5e1;
-            border-radius: 5px;
-            outline: none;
+            border-radius: 6px;
         }
 
-        .btn-action {
-            background: var(--secondary);
-            color: var(--white);
-            border: none;
-            padding: 10px 18px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
-            transition: 0.3s;
-        }
-
-        .btn-action:hover {
-            background: #0f766e;
-        }
-
-        /* Result Display Box */
-        .result-box {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 5px;
-            background: #f8fafc;
-        }
-
-        .result-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        .result-table th, .result-table td {
-            border: 1px solid #cbd5e1;
-            padding: 6px 10px;
-            text-align: left;
-            font-size: 0.88rem;
-        }
-
-        .result-table th {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        /* Responsive Layout */
         @media (max-width: 768px) {
-            .main-container {
+            .container {
                 grid-template-columns: 1fr;
-            }
-            .top-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            .logo-section {
-                flex-direction: column;
-            }
-            .nav-links {
-                flex-wrap: wrap;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Announcement Ticker -->
-    <div class="ticker-wrapper">
-        <span class="ticker-title"><i class="fas fa-bullhorn"></i> सूचना / Notice</span>
-        <marquee id="tickerText" behavior="scroll" direction="left" scrollamount="6">सूचना लोड हुँदैछ...</marquee>
+    <!-- Ticker Notice -->
+    <div class="ticker-container">
+        <div class="ticker-title"><i class="fas fa-bullhorn"></i> सूचना / Notice</div>
+        <div class="ticker-text" id="tickerDisplay">सूचना लोड हुँदैछ...</div>
     </div>
 
-    <!-- Main Branding Header -->
-    <header class="top-header">
-        <div class="logo-section">
-            <img src="logo.png" alt="School Logo" onerror="this.src='https://via.placeholder.com/75?text=School'">
-            <div class="school-info">
-                <h1>श्री बैजनाथ माध्यमिक विद्यालय</h1>
-                <p>Shree Baijanath Secondary School | Bedkot-03, Jadepani, Kanchanpur</p>
-            </div>
+    <!-- Header Section -->
+    <header>
+        <div class="logo-area">
+            <h1>श्री बैजनाथ माध्यमिक विद्यालय</h1>
+            <p>Shree Baijanath Secondary School | Bedkot-03, Jadepani, Kanchanpur</p>
         </div>
     </header>
 
-    <!-- Navigation Menu -->
-    <nav class="nav-bar">
-        <ul class="nav-links">
-            <li><a href="#" class="active"><i class="fas fa-home"></i> गृहपृष्ठ</a></li>
-            <li><a href="#notices-sec"><i class="fas fa-newspaper"></i> सूचनाहरू</a></li>
-            <li><a href="#teachers-sec"><i class="fas fa-user-tie"></i> शिक्षक वर्ग</a></li>
-            <li><a href="#result-sec"><i class="fas fa-graduation-cap"></i> नतिजा</a></li>
-            <li><a href="#admission-sec"><i class="fas fa-user-plus"></i> अनलाइन भर्ना</a></li>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home" class="active"><i class="fas fa-home"></i> गृहपृष्ठ</a></li>
+            <li><a href="#notices"><i class="fas fa-newspaper"></i> सूचनाहरू</a></li>
+            <li><a href="#teachers"><i class="fas fa-user-tie"></i> शिक्षक वर्ग</a></li>
+            <li><a href="#results"><i class="fas fa-graduation-cap"></i> नतिजा</a></li>
+            <li><a href="#admission"><i class="fas fa-user-plus"></i> अनलाइन भर्ना</a></li>
         </ul>
     </nav>
 
-    <!-- Image Slider Carousel -->
-    <div class="hero-slider">
-        <div class="slide active" style="background-image: url('slide1.jpg');">
-            <div class="slide-overlay">
-                <h2>गुणस्तरीय तथा प्राविधिक शिक्षा</h2>
-                <p>डिप्लोमा इन कम्प्युटर इन्जिनियरिङ अध्यापन हुने उत्कृष्ट गन्तव्य</p>
-            </div>
-        </div>
-        <div class="slide" style="background-image: url('slide2.jpg');">
-            <div class="slide-overlay">
-                <h2>सुसज्जित प्रयोगशाला र तालिम</h2>
-                <p>व्यावहारिक ज्ञान र प्रविधिमैत्री वातावरण</p>
-            </div>
-        </div>
+    <!-- Hero Banner -->
+    <div class="hero" id="home">
+        <h2>गुणस्तरीय तथा प्राविधिक शिक्षा</h2>
+        <p>डिप्लोमा इन कम्प्युटर इन्जिनियरिङ अध्ययन हुने उत्कृष्ट गन्तव्य</p>
     </div>
 
-    <!-- Main Dynamic Content Grid -->
-    <div class="main-container">
+    <!-- Main Container -->
+    <div class="container">
         
-        <!-- Left Main Column -->
-        <div class="left-column">
+        <!-- Left Side Content -->
+        <div class="main-left">
             
-            <!-- Notices Section -->
-            <div class="section-card" id="notices-sec">
+            <!-- Notice Board -->
+            <div class="section-card" id="notices">
                 <h3 class="section-title"><i class="fas fa-bell"></i> सूचना पाटी (Notice Board)</h3>
-                <div id="noticeContainer" class="notice-grid">
-                    <p>सूचनाहरू लोड हुँदैछन्...</p>
+                <ul class="notice-list" id="noticeContainer">
+                    <p style="color:#64748b;">सूचनाहरू लोड हुँदैछन्...</p>
+                </ul>
+            </div>
+
+            <!-- Teacher Section -->
+            <div class="section-card" id="teachers">
+                <h3 class="section-title"><i class="fas fa-users"></i> शिक्षक तथा कर्मचारीहरू</h3>
+                <div class="teacher-grid" id="teacherContainer">
+                    <p style="color:#64748b;">शिक्षक विवरण लोड हुँदैछ...</p>
                 </div>
             </div>
 
-            <!-- Teachers Section -->
-            <div class="section-card" id="teachers-sec">
-                <h3 class="section-title"><i class="fas fa-chalkboard-teacher"></i> शिक्षक तथा कर्मचारीहरू</h3>
-                <div id="teacherContainer" class="teacher-grid">
-                    <p>शिक्षक विवरण लोड हुँदैछ...</p>
-                </div>
-            </div>
-
-            <!-- Online Admission Form Section (Newly Integrated) -->
-            <div class="section-card" id="admission-sec">
+            <!-- Online Admission Form -->
+            <div class="section-card" id="admission">
                 <h3 class="section-title"><i class="fas fa-file-alt"></i> अनलाइन भर्ना फारम (Online Admission Form)</h3>
                 <form id="admissionForm">
                     <div class="form-group">
                         <label>विद्यार्थीको पूरा नाम (Full Name):</label>
-                        <input type="text" id="admName" placeholder="उदा: Ayush Pant" required>
+                        <input type="text" id="admName" placeholder="Ayush Pant" required>
                     </div>
                     <div class="form-group">
                         <label>सम्पर्क नम्बर (Phone Number):</label>
-                        <input type="tel" id="admPhone" placeholder="उदा: 98XXXXXXXX" required>
+                        <input type="text" id="admPhone" placeholder="9805649963" required>
                     </div>
                     <div class="form-group">
                         <label>इमेल ठेगाना (Email):</label>
-                        <input type="email" id="admEmail" placeholder="उदा: example@gmail.com" required>
+                        <input type="email" id="admEmail" placeholder="a6774496@gmail.com" required>
                     </div>
                     <div class="form-group">
                         <label>SEE GPA:</label>
-                        <input type="text" id="admGpa" placeholder="उदा: 3.6" required>
+                        <input type="text" id="admGpa" placeholder="3.6" required>
                     </div>
-                    <button type="submit" id="admSubmitBtn" class="btn-action"><i class="fas fa-paper-plane"></i> फारम बुझाउनुहोस्</button>
+                    <button type="submit" id="btnAdm" class="btn-search"><i class="fas fa-paper-plane"></i> फारम बुझाउनुहोस्</button>
                 </form>
-                <div id="admStatusMsg"></div>
+                <div id="admMsg" style="margin-top:10px;"></div>
             </div>
 
         </div>
 
-        <!-- Right Sidebar Column -->
-        <div class="right-sidebar">
+        <!-- Right Sidebar -->
+        <div class="main-right">
             
-            <!-- Result Search Sidebar Card -->
-            <div class="section-card" id="result-sec">
+            <!-- Result Search Box -->
+            <div class="section-card result-box" id="results">
                 <h3 class="section-title"><i class="fas fa-search"></i> नतिजा खोज्नुहोस्</h3>
                 <form id="resultSearchForm">
-                    <div class="form-group">
-                        <label for="symNum">Symbol Number:</label>
-                        <input type="text" id="symNum" placeholder="उदा: 1001" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="clsSelect">Class:</label>
-                        <select id="clsSelect" required>
-                            <option value="">कक्षा छान्नुहोस्</option>
-                            <option value="11">Class 11</option>
-                            <option value="12">Class 12</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn-action"><i class="fas fa-check-circle"></i> Result हेर्नुहोस्</button>
+                    <label>Symbol Number:</label>
+                    <input type="text" id="searchSymbol" placeholder="उदा: 1001" required>
+                    
+                    <label>Class:</label>
+                    <select id="searchClass">
+                        <option value="11">Class 11</option>
+                        <option value="12">Class 12</option>
+                    </select>
+                    
+                    <button type="submit" class="btn-search"><i class="fas fa-check-circle"></i> Result हेर्नुहोस्</button>
                 </form>
-                <div id="resultDisplay" class="result-box" style="display:none;"></div>
+                <div id="resultOutput" style="margin-top: 15px;"></div>
             </div>
 
-            <!-- Principal Message Sidebar Card -->
+            <!-- Message Card -->
             <div class="section-card">
                 <h3 class="section-title"><i class="fas fa-quote-left"></i> प्रअको सन्देश</h3>
-                <div style="text-align: center;">
-                    <img src="principal.jpg" alt="Principal" style="width:100px; height:100px; border-radius:50%; margin-bottom:10px;" onerror="this.src='https://via.placeholder.com/100'">
-                    <p style="font-size: 0.85rem; color:#475569;">"हाम्रो लक्ष्य गुणस्तरीय र प्रविधिमैत्री शिक्षा प्रदान गरी सक्षम नागरिक तयार गर्नु हो।"</p>
-                </div>
+                <p style="font-size:0.9rem; color:#475569; font-style:italic;">
+                    "हाम्रो लक्ष्य गुणस्तरीय र प्रविधिमैत्री शिक्षा प्रदान गरी सक्षम नागरिक तयार गर्नु हो।"
+                </p>
             </div>
 
         </div>
 
     </div>
 
-    <!-- JavaScript Backend Integration Section -->
+    <!-- Main JavaScript Script Integration -->
     <script>
-        // 🚀 नयाँ Apps Script Web App URL:
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbxTEnOc4m0du6udZO93AA05zXSA3_stJQP0utkS6lj9ABuU_snwFuxg1Q_QIVbohXjGxQ/exec";
+        // 🚀 नयाँ Google Apps Script URL
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbzHhceLkpOCYqLq1UBJ6t61KxcYppbw-QtrzwXNT30yKDUmDQAybIwJ21Gcwyl4RSqFYw/exec";
+        
+        let globalResults = [];
 
-        // Carousel Slider Script
-        let slideIndex = 0;
-        function showSlides() {
-            let slides = document.querySelectorAll(".slide");
-            slides.forEach(s => s.classList.remove("active"));
-            slideIndex++;
-            if (slideIndex > slides.length) slideIndex = 1;
-            slides[slideIndex - 1].classList.add("active");
-            setTimeout(showSlides, 4000);
-        }
-
-        // Fetch Notices & Ticker
-        async function fetchNoticesAndTicker() {
+        // Data Fetch Function from Google Sheets
+        async function fetchSchoolData() {
             try {
-                const res = await fetch(`${webAppUrl}?action=getNoticesAndTicker`);
+                const res = await fetch(webAppUrl);
                 const data = await res.json();
-                
-                if (data.ticker) {
-                    document.getElementById('tickerText').innerText = data.ticker;
+
+                // 1. Render Ticker
+                if(data.ticker) {
+                    document.getElementById('tickerDisplay').innerText = data.ticker;
                 }
 
-                const nContainer = document.getElementById('noticeContainer');
-                if (data.notices && data.notices.length > 0) {
-                    nContainer.innerHTML = data.notices.map(n => `
-                        <div class="notice-item">
+                // 2. Render Notices
+                const noticeContainer = document.getElementById('noticeContainer');
+                if(data.notices && data.notices.length > 0) {
+                    noticeContainer.innerHTML = data.notices.map(n => `
+                        <li class="notice-item">
                             <div class="notice-date">
-                                <div style="font-size:1.1rem; font-weight:bold;">${n.day}</div>
-                                <div style="font-size:0.75rem;">${n.month}</div>
+                                <div class="day">${n.day}</div>
+                                <div class="month">${n.month}</div>
                             </div>
                             <div>
                                 <h4 style="color:var(--primary);">${n.title}</h4>
                                 <p style="font-size:0.88rem; color:#475569;">${n.content}</p>
                             </div>
-                        </div>
+                        </li>
                     `).join('');
                 } else {
-                    nContainer.innerHTML = "<p>हाल कुनै सूचना उपलब्ध छैन।</p>";
+                    noticeContainer.innerHTML = "<p>कुनै सूचना उपलब्ध छैन।</p>";
                 }
-            } catch (e) {
-                console.error(e);
-            }
-        }
 
-        // Fetch Teachers Listing
-        async function fetchTeachers() {
-            try {
-                const res = await fetch(`${webAppUrl}?action=getTeachers`);
-                const teachers = await res.json();
-                const tContainer = document.getElementById('teacherContainer');
-
-                if (teachers && teachers.length > 0) {
-                    tContainer.innerHTML = teachers.map(t => `
+                // 3. Render Teachers
+                const teacherContainer = document.getElementById('teacherContainer');
+                if(data.teachers && data.teachers.length > 0) {
+                    teacherContainer.innerHTML = data.teachers.map(t => `
                         <div class="teacher-card">
                             <img src="${t.photoUrl || 'https://via.placeholder.com/90'}" alt="${t.name}">
-                            <h4 style="font-size:0.92rem; color:var(--primary);">${t.name}</h4>
+                            <h4 style="font-size:0.95rem; color:var(--primary);">${t.name}</h4>
                             <p style="font-size:0.8rem; color:#64748b;">${t.designation}</p>
                         </div>
                     `).join('');
                 } else {
-                    tContainer.innerHTML = "<p>शिक्षक विवरण उपलब्ध छैन।</p>";
+                    teacherContainer.innerHTML = "<p>शिक्षक विवरण थपिएको छैन।</p>";
                 }
-            } catch (e) {
-                console.error(e);
+
+                // Save results array globally for search
+                globalResults = data.results || [];
+
+            } catch(err) {
+                console.error("Data loading error:", err);
+                document.getElementById('tickerDisplay').innerText = "डाटा लोड गर्न सकिएन।";
             }
         }
 
         // Result Search Submit Handler
-        document.getElementById('resultSearchForm').addEventListener('submit', async (e) => {
+        document.getElementById('resultSearchForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const symbol = document.getElementById('symNum').value;
-            const sClass = document.getElementById('clsSelect').value;
-            const box = document.getElementById('resultDisplay');
+            const symbol = document.getElementById('searchSymbol').value.trim();
+            const sClass = document.getElementById('searchClass').value;
+            const output = document.getElementById('resultOutput');
 
-            box.style.display = 'block';
-            box.innerHTML = "<p>खोज्दैछ...</p>";
+            const found = globalResults.find(r => r.symbol == symbol && r.sClass == sClass);
 
-            try {
-                const res = await fetch(`${webAppUrl}?action=getResult&symbol=${symbol}&class=${sClass}`);
-                const data = await res.json();
-
-                if (data.name && data.name !== "Not found") {
-                    box.innerHTML = `
-                        <h4 style="color:var(--primary);">नाम: ${data.name}</h4>
-                        <table class="result-table">
-                            <tr><th>विषय</th><th>ग्रेड</th></tr>
-                            <tr><td>English</td><td>${data.english}</td></tr>
-                            <tr><td>Math</td><td>${data.math}</td></tr>
-                            <tr><td>Science</td><td>${data.science}</td></tr>
-                            <tr><td>Nepali</td><td>${data.nepali}</td></tr>
-                        </table>
-                        <div style="margin-top:8px; font-weight:bold; color:var(--accent);">
-                            GPA: ${data.gpa} (${data.result})
-                        </div>
-                    `;
-                } else {
-                    box.innerHTML = "<p style='color:red; font-size:0.85rem;'>माफ गर्नुहोला! सिम्बोल नम्बर वा कक्षा मिलेन।</p>";
-                }
-            } catch (err) {
-                box.innerHTML = "<p style='color:red; font-size:0.85rem;'>डाटा तान्न सकिएन।</p>";
+            if(found) {
+                output.innerHTML = `
+                    <div style="background:#e0f2fe; padding:15px; border-radius:6px; font-size:0.88rem;">
+                        <h4 style="color:#0369a1; margin-bottom:8px;">नाम: ${found.studentName}</h4>
+                        <p><strong>Class:</strong> ${found.sClass}</p>
+                        <p><strong>English:</strong> ${found.english} | <strong>Math:</strong> ${found.math}</p>
+                        <p><strong>Science:</strong> ${found.science} | <strong>Nepali:</strong> ${found.nepali}</p>
+                        <hr style="margin:8px 0; border:0; border-top:1px solid #bae6fd;">
+                        <p style="font-size:1rem; font-weight:bold; color:#0c4a6e;">GPA: ${found.gpa} (${found.result})</p>
+                    </div>
+                `;
+            } else {
+                output.innerHTML = `<p style="color:red; font-size:0.85rem;">नतिजा भेटिएन! कृपया Symbol No. र Class जाँच गर्नुहोस्।</p>`;
             }
         });
 
-        // Admission Form Submit Handler
+        // Online Admission Submit Handler (Fixes Network Error)
         document.getElementById('admissionForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('admSubmitBtn');
-            const msg = document.getElementById('admStatusMsg');
-
+            const btn = document.getElementById('btnAdm');
+            const msg = document.getElementById('admMsg');
             btn.disabled = true;
-            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> बुझाउँदैछ...";
+            btn.innerText = "पठाउँदैछ...";
 
             const payload = {
                 action: "addAdmission",
@@ -556,33 +468,24 @@
             };
 
             try {
-                const res = await fetch(webAppUrl, {
+                await fetch(webAppUrl, {
                     method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-                const result = await res.json();
-
-                if (result.status === "success") {
-                    msg.innerHTML = "<p style='color:green; margin-top:10px; font-size:0.9rem;'>✔ तपाईँको फारम सफलतापूर्वक सेभ भयो!</p>";
-                    document.getElementById('admissionForm').reset();
-                } else {
-                    msg.innerHTML = "<p style='color:red; margin-top:10px; font-size:0.9rem;'>त्रुटि भयो, पुनः प्रयास गर्नुहोस्।</p>";
-                }
+                msg.innerHTML = "<p style='color:green; font-weight:bold;'>✔ फारम सफलतापूर्वक सेभ भयो!</p>";
+                document.getElementById('admissionForm').reset();
             } catch (err) {
-                msg.innerHTML = "<p style='color:red; margin-top:10px; font-size:0.9rem;'>नेटवर्क समस्या भयो!</p>";
+                msg.innerHTML = "<p style='color:red;'>त्रुटि भयो! डाटा पठाउन सकिएन।</p>";
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = "<i class='fas fa-paper-plane'></i> फारम बुझाउनुहोस्";
+                btn.innerText = "फारम बुझाउनुहोस्";
             }
         });
 
-        // Initial Load Triggers
-        window.onload = () => {
-            showSlides();
-            fetchNoticesAndTicker();
-            fetchTeachers();
-        };
+        // Initialize Data Load
+        window.onload = fetchSchoolData;
     </script>
-
 </body>
 </html>
